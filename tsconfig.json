@@ -1,0 +1,27 @@
+{
+	"compilerOptions": {
+		//"target": "es2017",
+		"removeComments": true,
+		"baseUrl": "./",
+		"moduleResolution": "node",
+		"inlineSourceMap": true,
+		"inlineSources": true,
+		"rootDir" : "./src",
+		"outDir": "./build",
+		"declaration": true,
+		"declarationDir": "./build",
+		"listEmittedFiles": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noImplicitUseStrict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"pretty": true,
+		"strictNullChecks": true,
+		"watch": true
+	},
+	"include": [
+		"src/**/*.ts"
+	]
+}

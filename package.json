@@ -1,0 +1,24 @@
+{
+  "name": "orellius-engine",
+  "version": "0.0.1",
+  "description": "Rendering engine based on WebGL API",
+  "main": "src/main.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "lite-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lazarmitic/webgl-rendering-engine.git"
+  },
+  "author": "@lazarmitic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lazarmitic/webgl-rendering-engine/issues"
+  },
+  "homepage": "https://github.com/lazarmitic/webgl-rendering-engine#readme",
+  "dependencies": {
+    "lite-server": "^2.2.2",
+    "typescript": "^2.1.5"
+  }
+}
