@@ -4,7 +4,8 @@
   "description": "Rendering engine based on WebGL API",
   "main": "src/main.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "webpack",
+    "compile": "tsc",
     "start": "lite-server"
   },
   "repository": {
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/lazarmitic/webgl-rendering-engine#readme",
   "dependencies": {
     "lite-server": "^2.2.2",
-    "typescript": "^2.1.5"
+    "typescript": "^2.1.5",
+    "webpack": "^2.2.0"
   }
 }
