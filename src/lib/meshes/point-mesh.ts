@@ -4,7 +4,7 @@ import { PointMaterial } from "../materials/point-material"
 
 export class PointMesh extends Mesh {
 
-    private _position: Vector3; 
+    private _position: Vector3;
     private _material: PointMaterial;
 
     constructor() {
@@ -26,6 +26,7 @@ export class PointMesh extends Mesh {
     public render(gl: WebGLRenderingContext) {
 
         this._material.makeActive();
+        this._material.setPointPosition(this._position);
         gl.drawArrays(gl.POINTS, 0, 1);
     }
 }

@@ -14,11 +14,16 @@ function main(): void {
     pointMaterial.setColor(1, 0, 0, 1);
 
     let pointMesh = new PointMesh();
-    pointMesh.setPosition(0, 0, 0);
+    pointMesh.setPosition(0, 0.5, 0);
     pointMesh.setMaterial(pointMaterial);
+
+    let pointMesh2 = new PointMesh();
+    pointMesh2.setPosition(0.5, 0, 0);
+    pointMesh2.setMaterial(pointMaterial);
 
     let scene = new Scene();
     scene.add(pointMesh);
+    scene.add(pointMesh2);
 
     let render = function() {
 

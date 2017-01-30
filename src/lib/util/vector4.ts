@@ -1,21 +1,24 @@
-export class Vector3 {
+export class Vector4 {
 
 	private _x: number;
 	private _y: number;
 	private _z: number;
+	private _w: number;
 
-	constructor(x: number, y: number, z: number) {
+	constructor(x: number, y: number, z: number, w: number) {
 
 		this._x = x;
 		this._y = y;
 		this._z = z;
+		this._w = w;
 	}
 
-	public set(x: number, y: number, z: number) {
+	public set(x: number, y: number, z: number, w: number) {
 
 		this._x = x;
 		this._y = y;
 		this._z = z;
+		this._w = w;
 	}
 
 	get x(): number {
@@ -28,5 +31,9 @@ export class Vector3 {
 
 	get z(): number {
 		return this._z;
+	}
+
+	get w(): number {
+		return this._w;
 	}
 }
