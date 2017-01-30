@@ -46,9 +46,14 @@ export class ShaderProgram {
 		return this._program;
 	}
 
-	public setVector3Attribute(vector3: Vector3) {
+	public setVector3Attribute(vector3: Vector3, attributeName: string) {
 
-		this._gl.vertexAttrib3f(this.getAttributeLocation("a_Position"), vector3.x, vector3.y, vector3.z);
+		this._gl.vertexAttrib3f(this.getAttributeLocation(attributeName), vector3.x, vector3.y, vector3.z);
+	}
+
+	public setFloatAttribute(value: number, attributeName: string) {
+
+		this._gl.vertexAttrib1f(this.getAttributeLocation(attributeName), value);
 	}
 
 	public getAttributeLocation(attribute: string) {

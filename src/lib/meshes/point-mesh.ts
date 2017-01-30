@@ -4,29 +4,37 @@ import { PointMaterial } from "../materials/point-material"
 
 export class PointMesh extends Mesh {
 
-    private _position: Vector3;
-    private _material: PointMaterial;
+	private _position: Vector3;
+	private _material: PointMaterial;
+	private _size: number;
 
-    constructor() {
-        super();
+	constructor() {
+		super();
 
-        this._position = new Vector3(0, 0, 0);
-    }
+		this._position = new Vector3(0, 0, 0);
+		this._size = 10;
+	}
 
-    public setPosition(x: number, y: number, z: number) {
+	public setPosition(x: number, y: number, z: number) {
 
-        this._position.set(x, y, z);
-    }
+		this._position.set(x, y, z);
+	}
 
-    public setMaterial(material: PointMaterial) {
+	public setMaterial(material: PointMaterial) {
 
-        this._material = material;
-    }
+		this._material = material;
+	}
 
-    public render(gl: WebGLRenderingContext) {
+	public setSize(size: number) {
 
-        this._material.makeActive();
-        this._material.setPointPosition(this._position);
-        gl.drawArrays(gl.POINTS, 0, 1);
-    }
+		this._size = size;
+	}
+
+	public render(gl: WebGLRenderingContext) {
+
+		this._material.makeActive();
+		this._material.setPointPosition(this._position);
+		this._material.setPointSize(this._size);
+		gl.drawArrays(gl.POINTS, 0, 1);
+	}
 }

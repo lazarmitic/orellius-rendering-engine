@@ -25,6 +25,11 @@ export class PointMaterial extends Material {
 
 	public setPointPosition(vector3: Vector3) {
 
-		this._program.setVector3Attribute(vector3);
+		this._program.setVector3Attribute(vector3, "a_Position");
+	}
+
+	public setPointSize(size: number) {
+
+		this._program.setFloatAttribute(size, "a_Size");
 	}
 }
