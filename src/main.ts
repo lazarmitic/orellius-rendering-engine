@@ -2,6 +2,7 @@ import { WebGLRenderer } from "./lib/renderer/webgl-renderer";
 import { PointMesh } from "./lib/meshes/point-mesh"
 import { PointMaterial } from "./lib/materials/point-material"
 import { Scene } from "./lib/scene/scene"
+import { Color4 } from "./lib/util/color4"
 
 function main(): void {
 
@@ -11,10 +12,10 @@ function main(): void {
 	webGLRenderer.setClearColor(0.0, 0.0, 0.0, 1);
 	
 	let pointMaterial = new PointMaterial(webGLRenderer.getContext());
-	pointMaterial.setColor(1, 0, 0, 1);
+	pointMaterial.color = new Color4(0, 1, 0, 1);
 
 	let pointMaterial2 = new PointMaterial(webGLRenderer.getContext());
-	pointMaterial.setColor(0, 1, 0, 1);
+	pointMaterial2.color = new Color4(1, 0, 0, 1);
 
 	let pointMesh = new PointMesh();
 	pointMesh.setPosition(0, 0.5, 0);
@@ -24,7 +25,7 @@ function main(): void {
 	let pointMesh2 = new PointMesh();
 	pointMesh2.setPosition(0.5, 0, 0);
 	pointMesh2.setMaterial(pointMaterial2);
-	pointMesh2.setSize(3);
+	pointMesh2.setSize(20);
 
 	let scene = new Scene();
 	scene.add(pointMesh);

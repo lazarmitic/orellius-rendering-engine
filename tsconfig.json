@@ -19,7 +19,8 @@
 		"noUnusedParameters": true,
 		"pretty": true,
 		"strictNullChecks": true,
-		"watch": true
+		"watch": true,
+		"module": "commonjs"
 	},
 	"include": [
 		"src/**/*.ts"

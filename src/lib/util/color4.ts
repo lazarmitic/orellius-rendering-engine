@@ -20,4 +20,20 @@ export class Color4 {
         this._b = b;
         this._a = a;
     }
+
+    get r(): number {
+		return this._r;
+	}
+
+	get g(): number {
+		return this._g;
+	}
+
+	get b(): number {
+		return this._b;
+	}
+
+	get a(): number {
+		return this._a;
+	}
 }

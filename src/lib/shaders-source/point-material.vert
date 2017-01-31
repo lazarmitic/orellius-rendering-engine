@@ -1,3 +1,5 @@
+precision highp float;
+
 attribute vec3 a_Position;
 attribute float a_Size;
 

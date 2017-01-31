@@ -1,6 +1,7 @@
 import { VertexShader } from "./vertex-shader"
 import { FragmentShader } from "./fragment-shader"
 import { Vector3 } from "../util/vector3"
+import { Color4 } from "../util/color4"
 
 export class ShaderProgram {
 
@@ -46,9 +47,9 @@ export class ShaderProgram {
 		return this._program;
 	}
 
-	public setVector3Attribute(vector3: Vector3, attributeName: string) {
+	public setVector3Attribute(value: Vector3, attributeName: string) {
 
-		this._gl.vertexAttrib3f(this.getAttributeLocation(attributeName), vector3.x, vector3.y, vector3.z);
+		this._gl.vertexAttrib3f(this.getAttributeLocation(attributeName), value.x, value.y, value.z);
 	}
 
 	public setFloatAttribute(value: number, attributeName: string) {
@@ -56,8 +57,18 @@ export class ShaderProgram {
 		this._gl.vertexAttrib1f(this.getAttributeLocation(attributeName), value);
 	}
 
+	public setVector4Uniform(value: Color4, uniformName: string) {
+
+		this._gl.uniform4f(this.getUniformLocation(uniformName), value.r, value.g, value.b, value.a);
+	}
+
 	public getAttributeLocation(attribute: string) {
 
 		return this._gl.getAttribLocation(this._program, attribute);
+	}
+
+	public getUniformLocation(uniform: string) {
+
+		return this._gl.getUniformLocation(this._program, uniform);
 	}
 }

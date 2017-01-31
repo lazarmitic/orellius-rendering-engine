@@ -18,9 +18,9 @@ export class PointMaterial extends Material {
 		this._program = new ShaderProgram(this._vertexShader, this._frgmentShader, gl);
 	}
 
-	public setColor(r: number, g: number, b: number, a:number) {
-
-		this._color.set(r, g, b, a);
+	set color(color: Color4) {
+		
+		this._color = color;
 	}
 
 	public setPointPosition(vector3: Vector3) {
@@ -31,5 +31,10 @@ export class PointMaterial extends Material {
 	public setPointSize(size: number) {
 
 		this._program.setFloatAttribute(size, "a_Size");
+	}
+
+	public setPointColor() {
+
+		this._program.setVector4Uniform(this._color, "u_PointColor");
 	}
 }

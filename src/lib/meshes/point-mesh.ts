@@ -35,6 +35,7 @@ export class PointMesh extends Mesh {
 		this._material.makeActive();
 		this._material.setPointPosition(this._position);
 		this._material.setPointSize(this._size);
+		this._material.setPointColor();
 		gl.drawArrays(gl.POINTS, 0, 1);
 	}
 }
