@@ -1,4 +1,4 @@
-import { Mesh } from "./mesh"
+import { Mesh } from "./abstract/mesh"
 import { Vector3 } from "../util/vector3"
 import { PointMaterial } from "../materials/point-material"
 
@@ -8,8 +8,8 @@ export class PointMesh extends Mesh {
 	private _material: PointMaterial;
 	private _size: number;
 
-	constructor() {
-		super();
+	constructor(gl: WebGLRenderingContext) {
+		super(gl);
 
 		this._position = new Vector3(0, 0, 0);
 		this._size = 10;

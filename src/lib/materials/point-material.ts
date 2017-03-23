@@ -1,5 +1,5 @@
 import { ShaderProgram } from "../shaders/shader-program"
-import { Material } from "./material"
+import { Material } from "./abstract/material"
 import { Color4 } from "../util/color4"
 import { VertexShader } from "../shaders/vertex-shader"
 import { FragmentShader } from "../shaders/fragment-shader"

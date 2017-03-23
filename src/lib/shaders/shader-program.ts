@@ -3,6 +3,8 @@ import { FragmentShader } from "./fragment-shader"
 import { Vector3 } from "../util/vector3"
 import { Color4 } from "../util/color4"
 
+import * as glm from "gl-matrix"
+
 export class ShaderProgram {
 
 	private _program: WebGLProgram;
@@ -47,6 +49,12 @@ export class ShaderProgram {
 		return this._program;
 	}
 
+	public setVertexAttribute(attributeName: string) {
+
+		this._gl.vertexAttribPointer(this.getAttributeLocation(attributeName), 2, this._gl.FLOAT, false, 0, 0);
+		this._gl.enableVertexAttribArray(this.getAttributeLocation(attributeName));
+	}
+
 	public setVector3Attribute(value: Vector3, attributeName: string) {
 
 		this._gl.vertexAttrib3f(this.getAttributeLocation(attributeName), value.x, value.y, value.z);
@@ -55,6 +63,11 @@ export class ShaderProgram {
 	public setFloatAttribute(value: number, attributeName: string) {
 
 		this._gl.vertexAttrib1f(this.getAttributeLocation(attributeName), value);
+	}
+
+	public setMatrix4Uniform(matrix: glm.mat4, uniformName: string) {
+
+		this._gl.uniformMatrix4fv(<WebGLUniformLocation>this.getUniformLocation(uniformName), false, matrix);
 	}
 
 	public setVector4Uniform(value: Color4, uniformName: string) {

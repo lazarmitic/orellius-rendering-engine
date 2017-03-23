@@ -1,4 +1,4 @@
-import { Shader } from "./shader"
+import { Shader } from "./abstract/shader"
 
 export class VertexShader extends Shader {
 

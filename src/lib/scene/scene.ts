@@ -1,4 +1,4 @@
-import { Mesh } from "../meshes/mesh"
+import { Mesh } from "../meshes/abstract/mesh"
 
 export class Scene {
 

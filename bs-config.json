@@ -1,11 +1,11 @@
 {
-  "injectChanges": false,
-  "files": ["./**/*.{html,css,js,png}"],
-  "logLevel": "silent",
-  "watchOptions": { 
-    "ignored": ["node_modules", "build"]
-  },
-  "server": {
-    "baseDir": "./"
-  }
+	"injectChanges": false,
+	"files": ["./**/*.{html,css,js,png}"],
+	"logLevel": "silent",
+	"watchOptions": {
+		"ignored": ["node_modules", "build"]
+	},
+	"server": {
+		"baseDir": "./"
+	}
 }
