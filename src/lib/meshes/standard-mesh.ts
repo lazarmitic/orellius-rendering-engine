@@ -2,6 +2,7 @@ import { Mesh } from "./abstract/mesh"
 import { Vector3 } from "../util/vector3"
 import { StandardMaterial } from "../materials/standard-material"
 import { StandardGeometry } from "../geometries/StandardGeometry"
+import { PerspectiveCamera } from "../cameras/perspective-camera"
 
 import * as glm from "gl-matrix";
 
@@ -36,11 +37,13 @@ export class StandardMesh extends Mesh {
 		glm.mat4.translate(this._modelMatrix, this._modelMatrix, [this._position.x, this._position.y, this._position.z]);
 	}
 
-	public render(gl: WebGLRenderingContext) {
+	public render(gl: WebGLRenderingContext, camera: PerspectiveCamera) {
 
 		this._material.makeActive();
 		this._material.setPointPosition();
 		this._material.setModelMatrix(this._modelMatrix);
+		this._material.setProjectionMatrix(camera.projectionMatrix);
+		this._material.setViewMatrix(camera.viewMatrix);
 		gl.drawArrays(gl.TRIANGLES, 0, this._geometry.vertices.length / 3);
 	}
 }

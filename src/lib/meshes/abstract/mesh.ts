@@ -1,3 +1,5 @@
+import { PerspectiveCamera } from "./../../cameras/perspective-camera"
+
 export abstract class Mesh {
 
     protected _gl: WebGLRenderingContext;
@@ -7,5 +9,5 @@ export abstract class Mesh {
         this._gl = gl;
     }
 
-    public abstract render(gl: WebGLRenderingContext): void;
+    public abstract render(gl: WebGLRenderingContext, camera: PerspectiveCamera): void;
 } 

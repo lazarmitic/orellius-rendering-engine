@@ -4,6 +4,8 @@ import { Color4 } from "../util/color4"
 import { VertexShader } from "../shaders/vertex-shader"
 import { FragmentShader } from "../shaders/fragment-shader"
 
+import * as glm from "gl-matrix";
+
 export class StandardMaterial extends Material {
 
 	private _color: Color4;
@@ -27,8 +29,18 @@ export class StandardMaterial extends Material {
 		this._program.setVertexAttribute("a_Position");
 	}
 
-	public setModelMatrix(matrix: any) {
+	public setModelMatrix(matrix: glm.mat4) {
 
 		this._program.setMatrix4Uniform(matrix, "u_ModelMatrix");
+	}
+
+	public setProjectionMatrix(matrix: glm.mat4) {
+
+		this._program.setMatrix4Uniform(matrix, "u_ProjectionMatrix");
+	}
+
+	public setViewMatrix(matrix: glm.mat4) {
+
+		this._program.setMatrix4Uniform(matrix, "u_ViewMatrix");
 	}
 }
