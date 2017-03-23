@@ -1,6 +1,7 @@
 import { WebGL2Renderer } from "./lib/renderer/webgl-renderer";
 import { Scene } from "./lib/scene/scene";
 import { StandardMaterial } from "./lib/materials/standard-material";
+import { StandardGeometry } from "./lib/geometries/StandardGeometry"
 import { StandardMesh } from "./lib/meshes/standard-mesh";
 
 function main(): void {
@@ -10,31 +11,18 @@ function main(): void {
 	let webGL2Renderer = new WebGL2Renderer(canvas);
 	webGL2Renderer.setClearColor(0.0, 0.0, 0.0, 1);
 	
-	/*let pointMaterial = new PointMaterial(webGL2Renderer.getContext());
-	pointMaterial.color = new Color4(0, 1, 0, 1);
-
-	let pointMaterial2 = new PointMaterial(webGL2Renderer.getContext());
-	pointMaterial2.color = new Color4(1, 0, 0, 1);*/
-
-	/*let pointMesh = new PointMesh();
-	pointMesh.setPosition(0, 0.5, 0);
-	pointMesh.setMaterial(pointMaterial);
-	pointMesh.setSize(50);
-
-	let pointMesh2 = new PointMesh();
-	pointMesh2.setPosition(0.5, 0, 0);
-	pointMesh2.setMaterial(pointMaterial2);
-	pointMesh2.setSize(20);*/
-
 	let standardMaterial = new StandardMaterial(webGL2Renderer.getContext());
+	let standardGeometry = new StandardGeometry();
 
-	let standardMesh = new StandardMesh(webGL2Renderer.getContext());
-	standardMesh.setMaterial(standardMaterial);
-	standardMesh.setPosition(0, 0, 0);
+	let standardMesh1 = new StandardMesh(webGL2Renderer.getContext(), standardMaterial, standardGeometry);
+	standardMesh1.setPosition(-0.5, 0.0, 0.0);
+
+	let standardMesh2 = new StandardMesh(webGL2Renderer.getContext(), standardMaterial, standardGeometry);
+	standardMesh2.setPosition(0.5, 0.0, 0.0);
 
 	let scene = new Scene();
-	scene.add(standardMesh);
-	//scene.add(pointMesh2);
+	scene.add(standardMesh1);
+	scene.add(standardMesh2);
 
 	let render = function() {
 

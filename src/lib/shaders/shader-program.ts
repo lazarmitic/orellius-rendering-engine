@@ -51,7 +51,7 @@ export class ShaderProgram {
 
 	public setVertexAttribute(attributeName: string) {
 
-		this._gl.vertexAttribPointer(this.getAttributeLocation(attributeName), 2, this._gl.FLOAT, false, 0, 0);
+		this._gl.vertexAttribPointer(this.getAttributeLocation(attributeName), 3, this._gl.FLOAT, false, 0, 0);
 		this._gl.enableVertexAttribArray(this.getAttributeLocation(attributeName));
 	}
 
