@@ -1,5 +1,5 @@
-import { Scene } from "../scene/scene"
-import { PerspectiveCamera } from "../cameras/perspective-camera"
+import { Scene } from "../scene/scene";
+import { PerspectiveCamera } from "../cameras/perspective-camera";
 
 export class WebGL2Renderer {
 
@@ -43,7 +43,13 @@ export class WebGL2Renderer {
 		let sceneMeshes = scene.getMeshes();
 		for(let i = 0; i < sceneMeshes.length; i++) {
 
-			sceneMeshes[i].render(this._gl, camera);
+			sceneMeshes[i].material.makeActive();
+			sceneMeshes[i].material.setPointPosition();
+			sceneMeshes[i].material.setModelMatrix(sceneMeshes[i].modelMatrix);
+			sceneMeshes[i].material.setProjectionMatrix(camera.projectionMatrix);
+			sceneMeshes[i].material.setViewMatrix(camera.viewMatrix);
+
+			this._gl.drawArrays(this._gl.TRIANGLES, 0, sceneMeshes[i].geometry.vertices.length / 3);
 		}
 	}
 }

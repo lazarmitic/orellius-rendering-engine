@@ -1,4 +1,4 @@
-import { WebGL2Renderer } from "./lib/renderer/webgl-renderer";
+import { WebGL2Renderer } from "./lib/renderer/webgl-2-renderer";
 import { Scene } from "./lib/scene/scene";
 import { StandardMaterial } from "./lib/materials/standard-material";
 import { StandardGeometry } from "./lib/geometries/StandardGeometry";

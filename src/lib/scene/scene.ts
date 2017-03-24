@@ -1,15 +1,15 @@
-import { Mesh } from "../meshes/abstract/mesh"
+import { StandardMesh } from "../meshes/standard-mesh"
 
 export class Scene {
 
-    private _objects: Mesh[];
+    private _objects: StandardMesh[];
 
     constructor() {
 
         this._objects = [];
     }
 
-    public add(mesh: Mesh) {
+    public add(mesh: StandardMesh) {
 
         this._objects.push(mesh);
     }
