@@ -5,10 +5,12 @@ export class WebGL2Renderer {
 
 	private _canvas: HTMLCanvasElement;
 	private _gl: WebGLRenderingContext;
+	private _currentlyActiveMaterial: string;
 
 	constructor(canvas: HTMLCanvasElement) {
 
 		this._canvas = canvas;
+		this._currentlyActiveMaterial = "";
 
 		this._initializeWebGLContext();
 	}
@@ -43,7 +45,15 @@ export class WebGL2Renderer {
 		let sceneMeshes = scene.getMeshes();
 		for(let i = 0; i < sceneMeshes.length; i++) {
 
-			sceneMeshes[i].material.makeActive();
+			if(this._currentlyActiveMaterial === "" || sceneMeshes[i].material.uniqueMaterialName !== this._currentlyActiveMaterial) {
+
+				sceneMeshes[i].material.makeActive();
+				this._currentlyActiveMaterial = sceneMeshes[i].material.uniqueMaterialName;
+
+				console.log("New shader program bound: " + sceneMeshes[i].material.uniqueMaterialName);
+			}
+
+			
 			sceneMeshes[i].material.setPointPosition();
 			sceneMeshes[i].material.setModelMatrix(sceneMeshes[i].modelMatrix);
 			sceneMeshes[i].material.setProjectionMatrix(camera.projectionMatrix);

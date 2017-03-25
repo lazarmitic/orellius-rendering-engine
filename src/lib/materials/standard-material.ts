@@ -8,6 +8,8 @@ import * as glm from "gl-matrix";
 
 export class StandardMaterial extends Material {
 
+	public uniqueMaterialName = "standard-material";
+
 	private _color: Color4;
 
 	constructor(gl: WebGLRenderingContext) {
