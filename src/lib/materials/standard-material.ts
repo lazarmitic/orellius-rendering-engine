@@ -26,9 +26,9 @@ export class StandardMaterial extends Material {
 		this._color = color;
 	}
 
-	public setPointPosition() {
+	public activateMaterialAttributes() {
 
-		this._program.setVertexAttribute("a_Position");
+		this._program.activateVertexAttribute("a_Position");
 	}
 
 	public setModelMatrix(matrix: glm.mat4) {

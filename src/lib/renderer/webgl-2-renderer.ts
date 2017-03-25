@@ -48,13 +48,12 @@ export class WebGL2Renderer {
 			if(this._currentlyActiveMaterial === "" || sceneMeshes[i].material.uniqueMaterialName !== this._currentlyActiveMaterial) {
 
 				sceneMeshes[i].material.makeActive();
+				sceneMeshes[i].material.activateMaterialAttributes();
 				this._currentlyActiveMaterial = sceneMeshes[i].material.uniqueMaterialName;
 
 				console.log("New shader program bound: " + sceneMeshes[i].material.uniqueMaterialName);
 			}
 
-			
-			sceneMeshes[i].material.setPointPosition();
 			sceneMeshes[i].material.setModelMatrix(sceneMeshes[i].modelMatrix);
 			sceneMeshes[i].material.setProjectionMatrix(camera.projectionMatrix);
 			sceneMeshes[i].material.setViewMatrix(camera.viewMatrix);

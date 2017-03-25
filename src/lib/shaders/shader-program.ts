@@ -49,10 +49,12 @@ export class ShaderProgram {
 		return this._program;
 	}
 
-	public setVertexAttribute(attributeName: string) {
+	public activateVertexAttribute(attributeName: string) {
 
-		this._gl.vertexAttribPointer(this.getAttributeLocation(attributeName), 3, this._gl.FLOAT, false, 0, 0);
-		this._gl.enableVertexAttribArray(this.getAttributeLocation(attributeName));
+		var attributeLocation = this.getAttributeLocation(attributeName)
+
+		this._gl.vertexAttribPointer(attributeLocation, 3, this._gl.FLOAT, false, 0, 0);
+		this._gl.enableVertexAttribArray(attributeLocation);
 	}
 
 	public setVector3Attribute(value: Vector3, attributeName: string) {
