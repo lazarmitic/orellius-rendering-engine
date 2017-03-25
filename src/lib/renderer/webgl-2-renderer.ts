@@ -49,13 +49,20 @@ export class WebGL2Renderer {
 
 				sceneMeshes[i].material.makeActive();
 				sceneMeshes[i].material.activateMaterialAttributes();
-				this._currentlyActiveMaterial = sceneMeshes[i].material.uniqueMaterialName;
+				sceneMeshes[i].material.setProjectionMatrix(camera.projectionMatrix);
 
-				console.log("New shader program bound: " + sceneMeshes[i].material.uniqueMaterialName);
+				this._currentlyActiveMaterial = sceneMeshes[i].material.uniqueMaterialName;
+				camera.projectionMatrixDirty = false;
+			}
+
+			if(camera.projectionMatrixDirty === true) {
+				
+				sceneMeshes[i].material.setProjectionMatrix(camera.projectionMatrix);
+				camera.projectionMatrixDirty = false;
 			}
 
 			sceneMeshes[i].material.setModelMatrix(sceneMeshes[i].modelMatrix);
-			sceneMeshes[i].material.setProjectionMatrix(camera.projectionMatrix);
+			
 			sceneMeshes[i].material.setViewMatrix(camera.viewMatrix);
 
 			this._gl.drawArrays(this._gl.TRIANGLES, 0, sceneMeshes[i].geometry.vertices.length / 3);
