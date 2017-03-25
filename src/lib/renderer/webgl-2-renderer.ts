@@ -50,9 +50,11 @@ export class WebGL2Renderer {
 				sceneMeshes[i].material.makeActive();
 				sceneMeshes[i].material.activateMaterialAttributes();
 				sceneMeshes[i].material.setProjectionMatrix(camera.projectionMatrix);
+				sceneMeshes[i].material.setViewMatrix(camera.viewMatrix);
 
 				this._currentlyActiveMaterial = sceneMeshes[i].material.uniqueMaterialName;
 				camera.projectionMatrixDirty = false;
+				camera.viewMatrixDirty = false;
 			}
 
 			if(camera.projectionMatrixDirty === true) {
@@ -61,9 +63,13 @@ export class WebGL2Renderer {
 				camera.projectionMatrixDirty = false;
 			}
 
+			if(camera.viewMatrixDirty === true) {
+
+				sceneMeshes[i].material.setViewMatrix(camera.viewMatrix);
+				camera.viewMatrixDirty = false;
+			}
+
 			sceneMeshes[i].material.setModelMatrix(sceneMeshes[i].modelMatrix);
-			
-			sceneMeshes[i].material.setViewMatrix(camera.viewMatrix);
 
 			this._gl.drawArrays(this._gl.TRIANGLES, 0, sceneMeshes[i].geometry.vertices.length / 3);
 		}

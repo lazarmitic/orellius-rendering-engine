@@ -3,6 +3,7 @@ import * as glm from "gl-matrix";
 export class PerspectiveCamera {
 
 	private _projectionMatrixDirty: boolean;
+	private _viewMatrixDirty: boolean;
 	private _viewMatrix: glm.mat4;
 	private _projectionMatrix: glm.mat4;
 	private _position: glm.vec3;
@@ -10,6 +11,7 @@ export class PerspectiveCamera {
 	constructor(aspect: number) {
 
 		this._projectionMatrixDirty = true;
+		this._viewMatrixDirty = true;
 
 		this._viewMatrix = glm.mat4.create();
 		glm.mat4.identity(this._viewMatrix);
@@ -31,6 +33,13 @@ export class PerspectiveCamera {
 	}
 	set projectionMatrixDirty(projectionMatrixDirty: boolean) {
 		this._projectionMatrixDirty = projectionMatrixDirty;
+	}
+
+	get viewMatrixDirty(): boolean {
+		return this._viewMatrixDirty;
+	}
+	set viewMatrixDirty(viewMatrixDirty: boolean) {
+		this._viewMatrixDirty = viewMatrixDirty;
 	}
 
 	get viewMatrix(): glm.mat4 {
