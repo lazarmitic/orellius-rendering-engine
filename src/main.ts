@@ -1,7 +1,7 @@
 import { WebGL2Renderer } from "./lib/renderer/webgl-2-renderer";
 import { Scene } from "./lib/scene/scene";
 import { StandardMaterial } from "./lib/materials/standard-material";
-import { StandardGeometry } from "./lib/geometries/StandardGeometry";
+import { StandardGeometry } from "./lib/geometries/standard-geometry";
 import { StandardMesh } from "./lib/meshes/standard-mesh";
 import { PerspectiveCamera } from "./lib/cameras/perspective-camera";
 

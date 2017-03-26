@@ -1,7 +1,7 @@
 import { Mesh } from "./abstract/mesh"
 import { Vector3 } from "../util/vector3"
 import { StandardMaterial } from "../materials/standard-material"
-import { StandardGeometry } from "../geometries/StandardGeometry"
+import { StandardGeometry } from "../geometries/standard-geometry"
 
 import * as glm from "gl-matrix";
 
@@ -23,9 +23,6 @@ export class StandardMesh extends Mesh {
 		this._modelMatrix = glm.mat4.create();
 
 		this._vbo = this._gl.createBuffer();
-
-		this._gl.bindBuffer(this._gl.ARRAY_BUFFER, this._vbo);
-		this._gl.bufferData(this._gl.ARRAY_BUFFER, this._geometry.vertices, this._gl.STATIC_DRAW);
 	}
 
 	get material(): StandardMaterial {
@@ -44,5 +41,11 @@ export class StandardMesh extends Mesh {
 
 		glm.mat4.identity(this._modelMatrix);
 		glm.mat4.translate(this._modelMatrix, this._modelMatrix, [this._position.x, this._position.y, this._position.z]);
+	}
+
+	public sendGeometryToGPU() {
+
+		this._gl.bindBuffer(this._gl.ARRAY_BUFFER, this._vbo);
+		this._gl.bufferData(this._gl.ARRAY_BUFFER, this._geometry.vertices, this._gl.STATIC_DRAW);
 	}
 }
