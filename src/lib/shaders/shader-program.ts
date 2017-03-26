@@ -49,11 +49,11 @@ export class ShaderProgram {
 		return this._program;
 	}
 
-	public activateVertexAttribute(attributeName: string) {
+	public activateVertexAttribute(attributeName: string, size: number, stride: number, offset: number) {
 
 		var attributeLocation = this.getAttributeLocation(attributeName)
 
-		this._gl.vertexAttribPointer(attributeLocation, 3, this._gl.FLOAT, false, 0, 0);
+		this._gl.vertexAttribPointer(attributeLocation, size, this._gl.FLOAT, false, stride, offset);
 		this._gl.enableVertexAttribArray(attributeLocation);
 	}
 

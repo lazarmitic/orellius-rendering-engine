@@ -73,7 +73,7 @@ export class WebGL2Renderer {
 
 			sceneMeshes[i].material.setModelMatrix(sceneMeshes[i].modelMatrix);
 			
-			this._gl.drawArrays(this._gl.TRIANGLES, 0, sceneMeshes[i].geometry.vertices.length / 3);
+			this._gl.drawArrays(this._gl.TRIANGLES, 0, sceneMeshes[i].geometry.vertices.length / 6);
 		}
 	}
 }

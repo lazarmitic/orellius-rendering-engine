@@ -28,7 +28,8 @@ export class StandardMaterial extends Material {
 
 	public activateMaterialAttributes() {
 
-		this._program.activateVertexAttribute("a_Position");
+		this._program.activateVertexAttribute("a_Position", 3, 6 * 4, 0 * 4);
+		this._program.activateVertexAttribute("a_Color", 3, 6 * 4, 3 * 4);
 	}
 
 	public setModelMatrix(matrix: glm.mat4) {
