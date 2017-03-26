@@ -1,8 +1,14 @@
+#version 300 es
+
 precision highp float;
 
-varying vec3 v_Color;
+uniform sampler2D u_DiffuseTexture;
+
+in vec2 v_UV1;
+
+out vec4 fragColor;
 
 void main() {
 
-	gl_FragColor = vec4(v_Color.x, v_Color.y, v_Color.z, 1.0);
+	fragColor = texture(u_DiffuseTexture, v_UV1);
 }

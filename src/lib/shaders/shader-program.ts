@@ -49,6 +49,13 @@ export class ShaderProgram {
 		return this._program;
 	}
 
+	public bindTextureUnitToSampler(samplerName: string, textureUnit: number) {
+
+		let samplerPosition = this.getUniformLocation(samplerName);
+
+		this._gl.uniform1i(samplerPosition, textureUnit);
+	}
+
 	public activateVertexAttribute(attributeName: string, size: number, stride: number, offset: number) {
 
 		var attributeLocation = this.getAttributeLocation(attributeName)
