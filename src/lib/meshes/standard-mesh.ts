@@ -11,6 +11,7 @@ export class StandardMesh extends Mesh {
 	private _material: StandardMaterial;
 	private _geometry: StandardGeometry;
 	private _vbo: WebGLBuffer | null;
+	private _ebo: WebGLBuffer | null;
 	private _modelMatrix: glm.mat4;
 
 	constructor(gl: WebGLRenderingContext, material: StandardMaterial, geometry: StandardGeometry) {
@@ -23,6 +24,7 @@ export class StandardMesh extends Mesh {
 		this._modelMatrix = glm.mat4.create();
 
 		this._vbo = this._gl.createBuffer();
+		this._ebo = this._gl.createBuffer();
 	}
 
 	get material(): StandardMaterial {
@@ -47,5 +49,8 @@ export class StandardMesh extends Mesh {
 
 		this._gl.bindBuffer(this._gl.ARRAY_BUFFER, this._vbo);
 		this._gl.bufferData(this._gl.ARRAY_BUFFER, this._geometry.vertices, this._gl.STATIC_DRAW);
+
+		this._gl.bindBuffer(this._gl.ELEMENT_ARRAY_BUFFER, this._ebo);
+		this._gl.bufferData(this._gl.ELEMENT_ARRAY_BUFFER, this._geometry.indices, this._gl.STATIC_DRAW);
 	}
 }

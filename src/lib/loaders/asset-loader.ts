@@ -4,7 +4,7 @@ export class AssetLoader {
 
 	}
 
-	loadAsset(URL: string) {
+	loadAsset() {
 		
 	}
 }
