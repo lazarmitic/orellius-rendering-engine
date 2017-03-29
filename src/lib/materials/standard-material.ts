@@ -1,29 +1,33 @@
 import { ShaderProgram } from "../shaders/shader-program"
 import { Material } from "./abstract/material"
-import { Color4 } from "../util/color4"
 import { VertexShader } from "../shaders/vertex-shader"
 import { FragmentShader } from "../shaders/fragment-shader"
+import { StandardTexture } from "../textures/standard-texture";
 
 import * as glm from "gl-matrix";
 
 export class StandardMaterial extends Material {
 
 	public uniqueMaterialName = "standard-material";
-
-	private _color: Color4;
+	public image: HTMLImageElement;
+	public texture: StandardTexture;
 
 	constructor(gl: WebGLRenderingContext) {
 		super(gl);
 
-		this._color = new Color4(0, 0, 0, 1);
 		this._vertexShader = new VertexShader("./src/lib/shaders-source/standard-material.vert", gl);
 		this._frgmentShader = new FragmentShader("./src/lib/shaders-source/standard-material.frag", gl);
 		this._program = new ShaderProgram(this._vertexShader, this._frgmentShader, gl);
 	}
 
-	set color(color: Color4) {
-		
-		this._color = color;
+	public bindTexture() {
+
+		this._gl.activeTexture(this._gl.TEXTURE0);
+		this._gl.bindTexture(this._gl.TEXTURE_2D, this.texture.texture);
+		this._gl.texParameteri(this._gl.TEXTURE_2D, this._gl.TEXTURE_MIN_FILTER, this._gl.LINEAR);
+		this._gl.texImage2D(this._gl.TEXTURE_2D, 0, this._gl.RGB, this._gl.RGB, this._gl.UNSIGNED_BYTE, this.image);
+
+		this.bindTexturesToSampler();
 	}
 
 	public activateMaterialAttributes() {

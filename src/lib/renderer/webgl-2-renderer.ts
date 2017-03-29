@@ -1,6 +1,5 @@
 import { Scene } from "../scene/scene";
 import { PerspectiveCamera } from "../cameras/perspective-camera";
-import { StandardTexture } from "../textures/standard-texture";
 
 export class WebGL2Renderer {
 
@@ -19,6 +18,10 @@ export class WebGL2Renderer {
 	private _initializeWebGLContext(): void {
 
 		this._gl = <WebGLRenderingContext>this._canvas.getContext("webgl2");
+
+		this._gl.pixelStorei(this._gl.UNPACK_FLIP_Y_WEBGL, 1);
+		this._gl.enable(this._gl.DEPTH_TEST);
+		this._gl.depthFunc(this._gl.LESS);
 	}
 
 	public setClearColor(r: number, g: number, b: number, a: number): void {
@@ -41,7 +44,7 @@ export class WebGL2Renderer {
 		return this._gl;
 	}
 
-	public render(scene: Scene, camera: PerspectiveCamera, texture: StandardTexture, image: HTMLImageElement) {
+	public render(scene: Scene, camera: PerspectiveCamera) {
 
 		let sceneMeshes = scene.getMeshes();
 		for(let i = 0; i < sceneMeshes.length; i++) {
@@ -61,13 +64,7 @@ export class WebGL2Renderer {
 				camera.viewMatrixDirty = false;
 			}
 
-			this._gl.pixelStorei(this._gl.UNPACK_FLIP_Y_WEBGL, 1);
-			this._gl.activeTexture(this._gl.TEXTURE0);
-			this._gl.bindTexture(this._gl.TEXTURE_2D, texture.texture);
-			this._gl.texParameteri(this._gl.TEXTURE_2D, this._gl.TEXTURE_MIN_FILTER, this._gl.LINEAR);
-			this._gl.texImage2D(this._gl.TEXTURE_2D, 0, this._gl.RGB, this._gl.RGB, this._gl.UNSIGNED_BYTE, image);
-
-			sceneMeshes[i].material.bindTexturesToSampler();
+			sceneMeshes[i].material.bindTexture();
 
 			if(camera.projectionMatrixDirty === true) {
 				
@@ -84,6 +81,7 @@ export class WebGL2Renderer {
 			sceneMeshes[i].material.setModelMatrix(sceneMeshes[i].modelMatrix);
 			
 			this._gl.drawElements(this._gl.TRIANGLES, sceneMeshes[i].geometry.indices.length, this._gl.UNSIGNED_SHORT, 0);
+			//this._gl.drawArrays(this._gl.TRIANGLES, 0, sceneMeshes[i].geometry.vertices.length / 5);
 		}
 	}
 }

@@ -15,7 +15,7 @@ export class PerspectiveCamera {
 
 		this._viewMatrix = glm.mat4.create();
 		glm.mat4.identity(this._viewMatrix);
-		glm.mat4.lookAt(this._viewMatrix, [0, 0, 3], [0, 0, 0], [0, 1, 0]);
+		glm.mat4.lookAt(this._viewMatrix, [5, 5, 5], [0, 0, 0], [0, 1, 0]);
 
 		this._projectionMatrix = glm.mat4.create();
 		glm.mat4.perspective(this._projectionMatrix, 45, aspect, 0.1, 1000.0);

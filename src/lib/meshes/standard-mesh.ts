@@ -37,6 +37,11 @@ export class StandardMesh extends Mesh {
 		return this._geometry;
 	}
 
+	public rotate() {
+
+		glm.mat4.rotateY(this._modelMatrix, this._modelMatrix, 0.01);
+	}
+
 	public setPosition(x: number, y: number, z: number) {
 
 		this._position.set(x, y, z);
