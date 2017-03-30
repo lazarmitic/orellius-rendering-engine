@@ -10,8 +10,10 @@ export class AssetLoader {
 
 	private _meshName: string;
 	private _vertices: any[];
+	private _indieces: any[];
 	private _diffuseTextureName: string;
 	private _vbo: Float32Array;
+	private _ebo: Uint16Array;
 	private _callback: Function;
 	private _mesh: StandardMesh;
 	private _textureLoader: TextureLoader;
@@ -20,6 +22,7 @@ export class AssetLoader {
 
 		this._gl = gl;
 		this._vertices = [];
+		this._indieces = [];
 		this._textureLoader = new TextureLoader();
 	}
 
@@ -27,7 +30,7 @@ export class AssetLoader {
 		
 		this._callback = callback;
 
-		var xhttp = new XMLHttpRequest();
+		let xhttp = new XMLHttpRequest();
 
 		xhttp.onreadystatechange = () => {
 
@@ -56,10 +59,12 @@ export class AssetLoader {
 
 		this._parseFileData(file);
 		this._generateVbo();
+		this._generateEbo();
 
 		let standardMaterial = new StandardMaterial(this._gl);
 		let standardGeometry = new StandardGeometry();
 		standardGeometry.vertices = this._vbo;
+		standardGeometry.indices = this._ebo;
 
 		let standardMesh = new StandardMesh(this._gl, standardMaterial, standardGeometry);
 
@@ -68,7 +73,7 @@ export class AssetLoader {
 
 	private _parseFileData(file: string) {
 
-		var textFileLines = file.split("\n");
+		let textFileLines = file.split("\n");
 
 		for(let i = 0; i < textFileLines.length; i++) {
 
@@ -78,7 +83,7 @@ export class AssetLoader {
 
 	private _parseLineData(line: string) {
 
-		var lineSplited = line.split(/ (.+)/);
+		let lineSplited = line.split(/ (.+)/);
 
 		if(lineSplited[0] === "mesh") {
 
@@ -91,6 +96,15 @@ export class AssetLoader {
 		else if(lineSplited[0] === "diffuseTexture") {
 
 			this._diffuseTextureName = lineSplited[1];
+		}
+		else if(lineSplited[0] === "i") {
+
+			let indieces = lineSplited[1].split(" ");
+
+			for(let i = 0; i < indieces.length; i++) {
+
+				this._indieces.push(indieces[i]);
+			}
 		}
 	}
 
@@ -107,6 +121,16 @@ export class AssetLoader {
 			this._vbo[i * 5 + 2] = vertexDataSplited[2];
 			this._vbo[i * 5 + 3] = vertexDataSplited[3];
 			this._vbo[i * 5 + 4] = vertexDataSplited[4];
+		}
+	}
+
+	private _generateEbo() {
+
+		this._ebo = new Uint16Array(this._indieces.length);
+
+		for(let i = 0; i < this._indieces.length; i++) {
+
+			this._ebo[i] = this._indieces[i];
 		}
 	}
 }
