@@ -32,8 +32,8 @@ export class StandardMaterial extends Material {
 
 	public activateMaterialAttributes() {
 
-		this._program.activateVertexAttribute("a_Position", 3, 5 * 4, 0 * 4);
-		this._program.activateVertexAttribute("a_UV1", 2, 5 * 4, 3 * 4);
+		this._program.activateVertexAttribute(0, 3, 5 * 4, 0 * 4);
+		this._program.activateVertexAttribute(1, 2, 5 * 4, 3 * 4);
 	}
 
 	public bindTexturesToSampler() {

@@ -59,12 +59,10 @@ export class ShaderProgram {
 		this._gl.uniform1i(samplerPosition, textureUnit);
 	}
 
-	public activateVertexAttribute(attributeName: string, size: number, stride: number, offset: number) {
+	public activateVertexAttribute(attributePosition: number, size: number, stride: number, offset: number) {
 
-		var attributeLocation = this.getAttributeLocation(attributeName)
-
-		this._gl.vertexAttribPointer(attributeLocation, size, this._gl.FLOAT, false, stride, offset);
-		this._gl.enableVertexAttribArray(attributeLocation);
+		this._gl.vertexAttribPointer(attributePosition, size, this._gl.FLOAT, false, stride, offset);
+		this._gl.enableVertexAttribArray(attributePosition);
 	}
 
 	public setVector3Attribute(value: Vector3, attributeName: string) {
