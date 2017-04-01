@@ -30,6 +30,9 @@ export class ShaderProgram {
 
 		this._gl.linkProgram(this._program);
 		this._checkForLinkErrors();
+
+		this._gl.deleteShader(this._vertexShader.getShader());
+		this._gl.deleteShader(this._fragmentShader.getShader());
 	}
 
 	private _checkForLinkErrors() {
