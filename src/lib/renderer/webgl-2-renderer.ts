@@ -49,8 +49,6 @@ export class WebGL2Renderer {
 		let sceneMeshes = scene.getMeshes();
 		for(let i = 0; i < sceneMeshes.length; i++) {
 
-			sceneMeshes[i].sendGeometryToGPU();
-
 			if(this._currentlyActiveMaterial === "" || sceneMeshes[i].material.uniqueMaterialName !== this._currentlyActiveMaterial) {
 
 				sceneMeshes[i].material.makeActive();
@@ -64,6 +62,7 @@ export class WebGL2Renderer {
 				camera.viewMatrixDirty = false;
 			}
 
+			sceneMeshes[i].bindGeometry();
 			sceneMeshes[i].material.bindTexture();
 
 			if(camera.projectionMatrixDirty === true) {

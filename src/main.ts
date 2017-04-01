@@ -29,7 +29,7 @@ function main(): void {
 	}
 
 	var loader = new AssetLoader(webGL2Renderer.getContext());
-	loader.loadAsset("/assets/models/cube.orl", assetsLoaded);
+	loader.loadAsset("/assets/models/cube_complex.orl", assetsLoaded);
 
 	let render = function() {
 

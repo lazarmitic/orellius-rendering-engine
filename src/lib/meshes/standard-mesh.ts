@@ -25,6 +25,12 @@ export class StandardMesh extends Mesh {
 
 		this._vbo = this._gl.createBuffer();
 		this._ebo = this._gl.createBuffer();
+
+		this._gl.bindBuffer(this._gl.ARRAY_BUFFER, this._vbo);
+		this._gl.bufferData(this._gl.ARRAY_BUFFER, this._geometry.vertices, this._gl.STATIC_DRAW);
+
+		this._gl.bindBuffer(this._gl.ELEMENT_ARRAY_BUFFER, this._ebo);
+		this._gl.bufferData(this._gl.ELEMENT_ARRAY_BUFFER, this._geometry.indices, this._gl.STATIC_DRAW);
 	}
 
 	get material(): StandardMaterial {
@@ -40,6 +46,7 @@ export class StandardMesh extends Mesh {
 	public rotate() {
 
 		glm.mat4.rotateY(this._modelMatrix, this._modelMatrix, 0.01);
+		glm.mat4.rotateZ(this._modelMatrix, this._modelMatrix, 0.008);
 	}
 
 	public setPosition(x: number, y: number, z: number) {
@@ -50,12 +57,9 @@ export class StandardMesh extends Mesh {
 		glm.mat4.translate(this._modelMatrix, this._modelMatrix, [this._position.x, this._position.y, this._position.z]);
 	}
 
-	public sendGeometryToGPU() {
+	public bindGeometry() {
 
 		this._gl.bindBuffer(this._gl.ARRAY_BUFFER, this._vbo);
-		this._gl.bufferData(this._gl.ARRAY_BUFFER, this._geometry.vertices, this._gl.STATIC_DRAW);
-
 		this._gl.bindBuffer(this._gl.ELEMENT_ARRAY_BUFFER, this._ebo);
-		this._gl.bufferData(this._gl.ELEMENT_ARRAY_BUFFER, this._geometry.indices, this._gl.STATIC_DRAW);
 	}
 }
