@@ -1,8 +1,10 @@
 import { WebGL2Renderer } from "./lib/renderer/webgl-2-renderer";
 import { Scene } from "./lib/scene/scene";
-import { PerspectiveCamera } from "./lib/cameras/perspective-camera";
+import { OrbitCamera } from "./lib/cameras/orbit-camera";
 import { AssetLoader } from "./lib/loaders/asset-loader";
 import { StandardMesh } from "./lib/meshes/standard-mesh";
+
+import * as glm from "gl-matrix";
 
 function main(): void {
 
@@ -12,7 +14,9 @@ function main(): void {
 	webGL2Renderer.setClearColor(0.0, 0.3, 0.0, 1);
 	webGL2Renderer.setViewport(0, 0, canvas.width, canvas.height);
 
-	let camera = new PerspectiveCamera(canvas.width / canvas.height);
+	let cameraTarget = glm.vec3.create();
+	glm.vec3.set(cameraTarget, 0, 0, 0);
+	let camera = new OrbitCamera(cameraTarget, 30, 0, 0, canvas);
 
 	let scene = new Scene();
 
@@ -36,7 +40,7 @@ function main(): void {
 		webGL2Renderer.clearColor();
 		webGL2Renderer.render(scene, camera);
 
-		mesh.rotate();
+		//mesh.rotate();
 
 		requestAnimationFrame(render);
 	}

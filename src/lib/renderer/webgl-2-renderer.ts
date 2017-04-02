@@ -1,5 +1,5 @@
 import { Scene } from "../scene/scene";
-import { PerspectiveCamera } from "../cameras/perspective-camera";
+import { OrbitCamera } from "../cameras/orbit-camera";
 
 export class WebGL2Renderer {
 
@@ -44,7 +44,7 @@ export class WebGL2Renderer {
 		return this._gl;
 	}
 
-	public render(scene: Scene, camera: PerspectiveCamera) {
+	public render(scene: Scene, camera: OrbitCamera) {
 
 		let sceneMeshes = scene.getMeshes();
 		for(let i = 0; i < sceneMeshes.length; i++) {
