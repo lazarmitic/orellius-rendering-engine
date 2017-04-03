@@ -15,8 +15,9 @@ export class OrbitCamera {
 	private _projectionMatrix: glm.mat4;
 	private _position: glm.vec3;
 	private _radius: number;
+	private _minRadius: number;
 
-	constructor(target: glm.vec3, radius: number, theta: number, phi: number, canvas: HTMLCanvasElement) {
+	constructor(target: glm.vec3, radius: number, minRadius: number, theta: number, phi: number, canvas: HTMLCanvasElement) {
 
 		this._prevFrameXMousePos = 0;
 		this._prevFrameYMousePos = 0;
@@ -28,6 +29,7 @@ export class OrbitCamera {
 		this._projectionMatrixDirty = true;
 		this._viewMatrixDirty = true;
 		this._radius = radius;
+		this._minRadius = minRadius;
 
 		this._position = glm.vec3.create();
 		glm.vec3.set(this._position, this._target[0] + this._radius * Math.cos(this._phi) * Math.sin(this._theta),
@@ -113,7 +115,7 @@ export class OrbitCamera {
 
 	private _onMouseWheel(event: MouseWheelEvent) {
 
-		if (event.deltaY < 0) {
+		if (event.deltaY < 0 && this._radius > this._minRadius) {
 
 			this._radius -= 1;
 		}

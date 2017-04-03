@@ -16,7 +16,7 @@ function main(): void {
 
 	let cameraTarget = glm.vec3.create();
 	glm.vec3.set(cameraTarget, 0, 0, 0);
-	let camera = new OrbitCamera(cameraTarget, 30, 0, 0, canvas);
+	let camera = new OrbitCamera(cameraTarget, 30, 10, 0, 0, canvas);
 
 	let scene = new Scene();
 
