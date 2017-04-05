@@ -1,6 +1,6 @@
 {
 	"injectChanges": false,
-	"files": ["./**/*.{html,css,js,png}"],
+	"files": ["./**/*.{html,css,js,png,vert,frag}"],
 	"logLevel": "silent",
 	"watchOptions": {
 		"ignored": ["node_modules", "build"]

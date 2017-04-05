@@ -25,6 +25,7 @@ export class StandardMaterial extends Material {
 		this._gl.activeTexture(this._gl.TEXTURE0);
 		this._gl.bindTexture(this._gl.TEXTURE_2D, this.texture.texture);
 		this._gl.texParameteri(this._gl.TEXTURE_2D, this._gl.TEXTURE_MIN_FILTER, this._gl.LINEAR);
+		this._gl.texParameteri(this._gl.TEXTURE_2D, this._gl.TEXTURE_MAG_FILTER, this._gl.LINEAR);
 		this._gl.texImage2D(this._gl.TEXTURE_2D, 0, this._gl.RGB, this._gl.RGB, this._gl.UNSIGNED_BYTE, this.image);
 
 		this.bindTexturesToSampler();

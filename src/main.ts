@@ -9,6 +9,8 @@ import * as glm from "gl-matrix";
 function main(): void {
 
 	let canvas = <HTMLCanvasElement>document.getElementById("webgl-2-canvas");
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
 
 	let webGL2Renderer = new WebGL2Renderer(canvas);
 	webGL2Renderer.setClearColor(0.0, 0.3, 0.0, 1);
