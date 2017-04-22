@@ -47,6 +47,8 @@ export class OrbitCamera {
 		this._canvas.addEventListener("mouseup", this._onMouseUp.bind(this));
 		this._canvas.addEventListener("mousemove", this._onMouseMove.bind(this));
 		this._canvas.addEventListener("mousewheel", this._onMouseWheel.bind(this));
+		this._canvas.addEventListener("touchmove", this._onTouchMove.bind(this));
+		this._canvas.addEventListener("touchstart", this._onTouchStart.bind(this));
 	}
 
 	get projectionMatrix(): glm.mat4 {
@@ -87,6 +89,33 @@ export class OrbitCamera {
 			this._prevFrameYMousePos = event.clientY;
 			this._rotate = true;
 		}
+	}
+
+	private _onTouchStart(event: TouchEvent) {
+
+		this._prevFrameXMousePos = event.touches[0].clientX;
+		this._prevFrameYMousePos = event.touches[0].clientY;
+	}
+
+	private _onTouchMove(event: TouchEvent) {
+
+		this._theta += (event.touches[0].clientX - this._prevFrameXMousePos) * 0.1;
+		this._phi += -(event.touches[0].clientY - this._prevFrameYMousePos) * 0.1;
+
+		if(this._phi < -85) this._phi = -85;
+		if(this._phi > 85) this._phi = 85;
+
+		glm.vec3.set(this._position, this._radius * -Math.sin(this._theta * (Math.PI / 180)) * Math.cos((this._phi) * (Math.PI / 180)),
+						this._radius * -Math.sin((this._phi) * (Math.PI / 180)),
+						-this._radius * -Math.cos((this._theta) * (Math.PI / 180)) * Math.cos((this._phi) * (Math.PI / 180)));
+
+		glm.mat4.identity(this._viewMatrix);
+		glm.mat4.lookAt(this._viewMatrix, this._position, this._target, [0, 1, 0]);
+
+		this._viewMatrixDirty = true;
+
+		this._prevFrameXMousePos = event.touches[0].clientX;
+		this._prevFrameYMousePos = event.touches[0].clientY;
 	}
 
 	private _onMouseMove(event: MouseEvent) {
