@@ -1,21 +1,31 @@
 import { StandardMesh } from "../meshes/standard-mesh"
+import { Light } from "../lights/abstract/light";
 
 export class Scene {
 
-    private _objects: StandardMesh[];
+	private _meshes: StandardMesh[];
+	private _directionalLights: Light[];
 
-    constructor() {
+	constructor() {
 
-        this._objects = [];
-    }
+		this._meshes = [];
+		this._directionalLights = [];
+	}
 
-    public add(mesh: StandardMesh) {
+	public addMesh(mesh: StandardMesh) {
 
-        this._objects.push(mesh);
-    }
+		this._meshes.push(mesh);
+	}
 
-    public getMeshes() {
+	public addDirectionalLight(light: Light) {
 
-        return this._objects;
-    }
+		this._directionalLights.push(light);
+	}
+
+	get meshes(): StandardMesh[] {
+		return this._meshes;
+	}
+	get directionalLights(): Light[] {
+		return this._directionalLights;
+	}
 }

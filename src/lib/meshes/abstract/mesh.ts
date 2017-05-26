@@ -1,9 +1,9 @@
 export abstract class Mesh {
 
-    protected _gl: WebGLRenderingContext;
+	protected _gl: WebGL2RenderingContext;
 
-    constructor(gl: WebGLRenderingContext) {
+	constructor(gl: WebGL2RenderingContext) {
 
-        this._gl = gl;
-    }
+		this._gl = gl;
+	}
 }

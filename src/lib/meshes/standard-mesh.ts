@@ -1,5 +1,4 @@
 import { Mesh } from "./abstract/mesh"
-import { Vector3 } from "../util/vector3"
 import { StandardMaterial } from "../materials/standard-material"
 import { StandardGeometry } from "../geometries/standard-geometry"
 
@@ -7,20 +6,21 @@ import * as glm from "gl-matrix";
 
 export class StandardMesh extends Mesh {
 
-	private _position: Vector3;
+	private _position: glm.vec3;
 	private _material: StandardMaterial;
 	private _geometry: StandardGeometry;
 	private _vbo: WebGLBuffer | null;
 	private _ebo: WebGLBuffer | null;
 	private _modelMatrix: glm.mat4;
 
-	constructor(gl: WebGLRenderingContext, material: StandardMaterial, geometry: StandardGeometry) {
+	constructor(gl: WebGL2RenderingContext, material: StandardMaterial, geometry: StandardGeometry) {
 		super(gl);
 
 		this._material = material;
 		this._geometry = geometry;
 
-		this._position = new Vector3(0, 0, 0);
+		this._position = glm.vec3.create();
+		glm.vec3.set(this._position, 0, 0, 0);
 		this._modelMatrix = glm.mat4.create();
 
 		this._vbo = this._gl.createBuffer();
@@ -43,18 +43,12 @@ export class StandardMesh extends Mesh {
 		return this._geometry;
 	}
 
-	public rotate() {
-
-		glm.mat4.rotateY(this._modelMatrix, this._modelMatrix, 0.01);
-		glm.mat4.rotateZ(this._modelMatrix, this._modelMatrix, 0.008);
-	}
-
 	public setPosition(x: number, y: number, z: number) {
 
-		this._position.set(x, y, z);
+		glm.vec3.set(this._position, x, y, z);
 
 		glm.mat4.identity(this._modelMatrix);
-		glm.mat4.translate(this._modelMatrix, this._modelMatrix, [this._position.x, this._position.y, this._position.z]);
+		glm.mat4.translate(this._modelMatrix, this._modelMatrix, [this._position[0], this._position[1], this._position[2]]);
 	}
 
 	public bindGeometry() {

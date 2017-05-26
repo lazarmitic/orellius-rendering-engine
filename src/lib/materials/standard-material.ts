@@ -12,7 +12,7 @@ export class StandardMaterial extends Material {
 	public image: HTMLImageElement;
 	public texture: StandardTexture;
 
-	constructor(gl: WebGLRenderingContext) {
+	constructor(gl: WebGL2RenderingContext) {
 		super(gl);
 
 		this._vertexShader = new VertexShader("./src/lib/shaders-source/standard-material.vert", gl);
@@ -31,15 +31,25 @@ export class StandardMaterial extends Material {
 		this.bindTexturesToSampler();
 	}
 
+	get program(): ShaderProgram {
+		return this._program;
+	}
+
 	public activateMaterialAttributes() {
 
-		this._program.activateVertexAttribute(0, 3, 5 * 4, 0 * 4);
-		this._program.activateVertexAttribute(1, 2, 5 * 4, 3 * 4);
+		this._program.activateVertexAttribute(0, 3, 8 * 4, 0 * 4);
+		this._program.activateVertexAttribute(1, 2, 8 * 4, 3 * 4);
+		this._program.activateVertexAttribute(2, 3, 8 * 4, 5 * 4);
 	}
 
 	public bindTexturesToSampler() {
 
 		this._program.bindTextureUnitToSampler("u_DiffuseTexture", 0);
+	}
+
+	public setViewPosition(viewPosition : glm.vec3) {
+
+		this._program.setVector3Uniform(viewPosition, "u_viewPosition");
 	}
 
 	public setModelMatrix(matrix: glm.mat4) {

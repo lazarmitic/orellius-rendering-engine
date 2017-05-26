@@ -1,18 +1,16 @@
 import { VertexShader } from "./vertex-shader"
 import { FragmentShader } from "./fragment-shader"
-import { Vector3 } from "../util/vector3"
-import { Color4 } from "../util/color4"
 
 import * as glm from "gl-matrix"
 
 export class ShaderProgram {
 
 	private _program: WebGLProgram;
-	private _gl: WebGLRenderingContext;
+	private _gl: WebGL2RenderingContext;
 	private _vertexShader: VertexShader;
 	private _fragmentShader: FragmentShader;
 
-	constructor(vertexShader: VertexShader, fragmentShader: FragmentShader, gl: WebGLRenderingContext) {
+	constructor(vertexShader: VertexShader, fragmentShader: FragmentShader, gl: WebGL2RenderingContext) {
 
 		this._vertexShader = vertexShader;
 		this._fragmentShader = fragmentShader;
@@ -65,9 +63,9 @@ export class ShaderProgram {
 		this._gl.enableVertexAttribArray(attributePosition);
 	}
 
-	public setVector3Attribute(value: Vector3, attributeName: string) {
+	public setVector3Attribute(value: glm.vec3, attributeName: string) {
 
-		this._gl.vertexAttrib3f(this.getAttributeLocation(attributeName), value.x, value.y, value.z);
+		this._gl.vertexAttrib3f(this.getAttributeLocation(attributeName), value[0], value[1], value[2]);
 	}
 
 	public setFloatAttribute(value: number, attributeName: string) {
@@ -75,14 +73,24 @@ export class ShaderProgram {
 		this._gl.vertexAttrib1f(this.getAttributeLocation(attributeName), value);
 	}
 
+	public setIntUniform(value: number, uniformName: string) {
+
+		this._gl.uniform1i(this.getUniformLocation(uniformName), value);
+	}
+
 	public setMatrix4Uniform(matrix: glm.mat4, uniformName: string) {
 
 		this._gl.uniformMatrix4fv(<WebGLUniformLocation>this.getUniformLocation(uniformName), false, matrix);
 	}
 
-	public setVector4Uniform(value: Color4, uniformName: string) {
+	public setVector4Uniform(value: glm.vec4, uniformName: string) {
 
-		this._gl.uniform4f(this.getUniformLocation(uniformName), value.r, value.g, value.b, value.a);
+		this._gl.uniform4f(this.getUniformLocation(uniformName), value[0], value[1], value[2], value[3]);
+	}
+
+	public setVector3Uniform(value: glm.vec3, uniformName: string) {
+
+		this._gl.uniform3f(this.getUniformLocation(uniformName), value[0], value[1], value[2]);
 	}
 
 	public getAttributeLocation(attribute: string) {

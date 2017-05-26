@@ -1,31 +1,32 @@
 {
-	"name": "orellius-engine",
-	"version": "0.0.1",
-	"description": "Rendering engine based on WebGL 2 API",
-	"main": "src/main.ts",
-	"scripts": {
-		"build": "webpack",
-		"start": "lite-server"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/lazarmitic/webgl-rendering-engine.git"
-	},
-	"author": "@lazarmitic",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/lazarmitic/webgl-rendering-engine/issues"
-	},
-	"homepage": "https://github.com/lazarmitic/webgl-rendering-engine#readme",
-	"dependencies": {
-		"@types/gl-matrix": "^2.2.34",
-		"gl-matrix": "^2.3.2"
-	},
-	"devDependencies": {
-		"lite-server": "^2.2.2",
-		"source-map-loader": "^0.2.0",
-		"ts-loader": "^2.0.3",
-		"typescript": "^2.1.5",
-		"webpack": "^2.2.0"
-	}
+  "name": "orellius-engine",
+  "version": "0.0.1",
+  "description": "Rendering engine based on WebGL 2 API",
+  "main": "src/main.ts",
+  "scripts": {
+    "build": "webpack",
+    "start": "lite-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lazarmitic/webgl-rendering-engine.git"
+  },
+  "author": "@lazarmitic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lazarmitic/webgl-rendering-engine/issues"
+  },
+  "homepage": "https://github.com/lazarmitic/webgl-rendering-engine#readme",
+  "dependencies": {
+    "@types/gl-matrix": "^2.2.34",
+    "@types/webgl2": "0.0.1",
+    "gl-matrix": "^2.3.2"
+  },
+  "devDependencies": {
+    "lite-server": "^2.2.2",
+    "source-map-loader": "^0.2.0",
+    "ts-loader": "^2.0.3",
+    "typescript": "^2.1.5",
+    "webpack": "^2.2.0"
+  }
 }

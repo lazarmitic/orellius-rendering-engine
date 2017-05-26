@@ -6,7 +6,7 @@ import { StandardTexture } from "./../textures/standard-texture";
 
 export class AssetLoader {
 
-	private _gl: WebGLRenderingContext;
+	private _gl: WebGL2RenderingContext;
 
 	private _meshName: string;
 	private _vertices: any[];
@@ -18,7 +18,7 @@ export class AssetLoader {
 	private _mesh: StandardMesh;
 	private _textureLoader: TextureLoader;
 
-	constructor(gl: WebGLRenderingContext) {
+	constructor(gl: WebGL2RenderingContext) {
 
 		this._gl = gl;
 		this._vertices = [];
@@ -110,17 +110,20 @@ export class AssetLoader {
 
 	private _generateVbo() {
 
-		this._vbo = new Float32Array(this._vertices.length * 5);
+		this._vbo = new Float32Array(this._vertices.length * 8);
 
 		for(let i = 0; i < this._vertices.length; i++) {
 
 			let vertexDataSplited = this._vertices[i].split(" ");
 
-			this._vbo[i * 5] = vertexDataSplited[0];
-			this._vbo[i * 5 + 1] = vertexDataSplited[1];
-			this._vbo[i * 5 + 2] = vertexDataSplited[2];
-			this._vbo[i * 5 + 3] = vertexDataSplited[3];
-			this._vbo[i * 5 + 4] = vertexDataSplited[4];
+			this._vbo[i * 8] = vertexDataSplited[0];
+			this._vbo[i * 8 + 1] = vertexDataSplited[1];
+			this._vbo[i * 8 + 2] = vertexDataSplited[2];
+			this._vbo[i * 8 + 3] = vertexDataSplited[3];
+			this._vbo[i * 8 + 4] = vertexDataSplited[4];
+			this._vbo[i * 8 + 5] = vertexDataSplited[5];
+			this._vbo[i * 8 + 6] = vertexDataSplited[6];
+			this._vbo[i * 8 + 7] = vertexDataSplited[7];
 		}
 	}
 

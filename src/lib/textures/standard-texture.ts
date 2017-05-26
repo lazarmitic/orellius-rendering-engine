@@ -1,9 +1,9 @@
 export class StandardTexture {
 
-	private _gl: WebGLRenderingContext;
+	private _gl: WebGL2RenderingContext;
 	private _texture: WebGLTexture | null;
 
-	constructor(gl: WebGLRenderingContext) {
+	constructor(gl: WebGL2RenderingContext) {
 
 		this._gl = gl;
 

@@ -51,6 +51,10 @@ export class OrbitCamera {
 		this._canvas.addEventListener("touchstart", this._onTouchStart.bind(this));
 	}
 
+	get position(): glm.vec3 {
+		return this._position;
+	}
+
 	get projectionMatrix(): glm.mat4 {
 		return this._projectionMatrix;
 	}

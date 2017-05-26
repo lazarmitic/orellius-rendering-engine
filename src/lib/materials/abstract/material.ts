@@ -4,12 +4,12 @@ import { ShaderProgram } from "../../shaders/shader-program"
 
 export abstract class Material {
 
-	protected _gl: WebGLRenderingContext;
+	protected _gl: WebGL2RenderingContext;
 	protected _vertexShader: VertexShader;
 	protected _frgmentShader: FragmentShader;
 	protected _program: ShaderProgram;
 
-	constructor(gl: WebGLRenderingContext) {
+	constructor(gl: WebGL2RenderingContext) {
 
 		this._gl = gl;
 	}
