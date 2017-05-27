@@ -14,6 +14,22 @@ uniform int numberOfActiveDirectionalLights;
 
 vec3 calculateDirectionalLight(DirectionalLight directionalLight, vec3 normal, vec3 fragmentToCameraDirection);
 
+struct PointLight {
+
+	vec3 position;
+
+	float constant;
+	float linear;
+	float quadratic;
+
+	vec3 ambientColor;
+	vec3 diffuseColor;
+	vec3 specularColor;
+};
+uniform PointLight pointLights[5];
+uniform int numberOfActivePointLights;
+
+vec3 calculatePointLight(PointLight pointLight, vec3 normal, vec3 fragmentPosition, vec3 fragmentToCameraDirection);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -60,6 +76,11 @@ void main() {
 		result += calculateDirectionalLight(directionalLights[i], normalizedNormal, fragmentToViewDirection);
 	}
 
+	for(int i = 0; i < numberOfActivePointLights; i++) {
+
+		result += calculatePointLight(pointLights[i], normalizedNormal, v_FragmentPosition, fragmentToViewDirection);
+	}
+
 	o_fragColor = vec4(result, 1.0);
 }
 
@@ -82,9 +103,31 @@ vec3 calculateDirectionalLight(DirectionalLight directionalLight, vec3 fragmentN
 	return ambient + diffuse + specular;
 }
 
+vec3 calculatePointLight(PointLight pointLight, vec3 normal, vec3 fragmentPosition, vec3 fragmentToCameraDirection) {
 
-// Ideas for lightning 
+	vec3 fragmentToLightDirection = normalize(pointLight.position - fragmentPosition);
+	vec3 fragmentToLightDirectionReflected = reflect(-fragmentToLightDirection, normal);
+	float fragmentToLightDistance = length(pointLight.position - fragmentPosition);
 
-// 1. Every light in scene should have ambient farctor, more light in scene = stringer ambient light.
-//    If all lights have different colors, resulting ambient should be combination of those colors,
-//    based on ambient factor.
+	// Diffuse factor
+	float diffuseFactor = max(dot(normal, fragmentToLightDirection), 0.0);
+
+	// Specular factor
+	float specularFactor = pow(max(dot(fragmentToCameraDirection, fragmentToLightDirectionReflected), 0.0), 32.0);
+
+	// Attenuation factor
+	float attenuationFactor = 1.0 / (pointLight.constant +
+									pointLight.linear * fragmentToLightDistance +
+									pointLight.quadratic * (fragmentToLightDistance * fragmentToLightDistance));
+
+	// Combine results
+	vec3 ambient = pointLight.ambientColor * vec3(texture(u_DiffuseTexture, v_UV));
+	vec3 diffuse = pointLight.diffuseColor * diffuseFactor * vec3(texture(u_DiffuseTexture, v_UV));
+	vec3 specular = pointLight.specularColor * specularFactor * vec3(0.5, 0.5, 0.5);
+
+	ambient *= attenuationFactor;
+	diffuse *= attenuationFactor;
+	specular *= attenuationFactor;
+
+	return (ambient + diffuse + specular);
+}

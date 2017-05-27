@@ -1,15 +1,18 @@
 import { StandardMesh } from "../meshes/standard-mesh"
-import { Light } from "../lights/abstract/light";
+import { DirectionalLight } from "../lights/directional-light";
+import { PointLight } from "../lights/point-light";
 
 export class Scene {
 
 	private _meshes: StandardMesh[];
-	private _directionalLights: Light[];
+	private _directionalLights: DirectionalLight[];
+	private _pointLights: PointLight[];
 
 	constructor() {
 
 		this._meshes = [];
 		this._directionalLights = [];
+		this._pointLights = [];
 	}
 
 	public addMesh(mesh: StandardMesh) {
@@ -17,15 +20,23 @@ export class Scene {
 		this._meshes.push(mesh);
 	}
 
-	public addDirectionalLight(light: Light) {
+	public addDirectionalLight(directionalLight: DirectionalLight) {
 
-		this._directionalLights.push(light);
+		this._directionalLights.push(directionalLight);
+	}
+
+	public addPointLight(pointLight: PointLight) {
+
+		this._pointLights.push(pointLight);
 	}
 
 	get meshes(): StandardMesh[] {
 		return this._meshes;
 	}
-	get directionalLights(): Light[] {
+	get directionalLights(): DirectionalLight[] {
 		return this._directionalLights;
+	}
+	get pointLights(): PointLight[] {
+		return this._pointLights;
 	}
 }

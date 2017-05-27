@@ -48,6 +48,7 @@ export class WebGL2Renderer {
 
 		let sceneMeshes = scene.meshes;
 		let directionalLights = scene.directionalLights;
+		let pointLights = scene.pointLights;
 		for(let i = 0; i < sceneMeshes.length; i++) {
 
 			if(this._currentlyActiveMaterial === "" || sceneMeshes[i].material.uniqueMaterialName !== this._currentlyActiveMaterial) {
@@ -61,7 +62,12 @@ export class WebGL2Renderer {
 				sceneMeshes[i].material.program.setIntUniform(directionalLights.length, "numberOfActiveDirectionalLights");
 				for(let k = 0; k < directionalLights.length; k++) {
 
-					directionalLights[i].uploadDataToGPU(sceneMeshes[i].material.program, k, true);
+					directionalLights[k].uploadDataToGPU(sceneMeshes[i].material.program, k, true);
+				}
+				sceneMeshes[i].material.program.setIntUniform(pointLights.length, "numberOfActivePointLights");
+				for(let k = 0; k < pointLights.length; k++) {
+
+					pointLights[k].uploadDataToGPU(sceneMeshes[i].material.program, k, true);
 				}
 
 				this._currentlyActiveMaterial = sceneMeshes[i].material.uniqueMaterialName;
@@ -69,9 +75,15 @@ export class WebGL2Renderer {
 				camera.viewMatrixDirty = false;
 			}
 
+			sceneMeshes[i].material.program.setIntUniform(directionalLights.length, "numberOfActiveDirectionalLights");
 			for(let k = 0; k < directionalLights.length; k++) {
 
-				directionalLights[i].uploadDataToGPU(sceneMeshes[i].material.program, k, false);
+				directionalLights[k].uploadDataToGPU(sceneMeshes[i].material.program, k, false);
+			}
+			sceneMeshes[i].material.program.setIntUniform(pointLights.length, "numberOfActivePointLights");
+			for(let k = 0; k < pointLights.length; k++) {
+
+				pointLights[k].uploadDataToGPU(sceneMeshes[i].material.program, k, false);
 			}
 
 			sceneMeshes[i].bindGeometry();

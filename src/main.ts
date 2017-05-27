@@ -4,6 +4,7 @@ import { OrbitCamera } from "./lib/cameras/orbit-camera";
 import { AssetLoader } from "./lib/loaders/asset-loader";
 import { StandardMesh } from "./lib/meshes/standard-mesh";
 import { DirectionalLight } from "./lib/lights/directional-light";
+import { PointLight } from "./lib/lights/point-light";
 
 import * as glm from "gl-matrix";
 
@@ -23,14 +24,40 @@ function main(): void {
 	let lightDirectionVector = glm.vec3.create();
 	glm.vec3.set(lightDirectionVector, 0.5, -1, 0.5);
 	let lightAmbientColor = glm.vec3.create();
-	glm.vec3.set(lightAmbientColor, 0.2, 0.2, 0.2);
+	glm.vec3.set(lightAmbientColor, 0.1, 0.1, 0.1);
 	let lightDiffuseColor = glm.vec3.create();
-	glm.vec3.set(lightDiffuseColor, 2.0, 2.0, 2.0);
+	glm.vec3.set(lightDiffuseColor, 1.0, 1.0, 1.0);
 	let lightSpecularColor = glm.vec3.create();
 	glm.vec3.set(lightSpecularColor, 0.5, 0.5, 0.5);
 
+	let lightDirectionVector2 = glm.vec3.create();
+	glm.vec3.set(lightDirectionVector2, -0.5, -1, -0.5);
+	let lightAmbientColor2 = glm.vec3.create();
+	glm.vec3.set(lightAmbientColor2, 0.1, 0.1, 0.1);
+	let lightDiffuseColor2 = glm.vec3.create();
+	glm.vec3.set(lightDiffuseColor2, 1.0, 0.0, 1.0);
+	let lightSpecularColor2 = glm.vec3.create();
+	glm.vec3.set(lightSpecularColor2, 0.5, 0.5, 0.5);
+
+	let pointLightPosition1 = glm.vec3.create();
+	glm.vec3.set(pointLightPosition1, 5, 2, 5);
+
+	let pointLightPosition2 = glm.vec3.create();
+	glm.vec3.set(pointLightPosition2, -5, 2, -5);
+
+	let pointLightConstant = 1;
+	let pointLightLinear = 0.09;
+	let pointLightQuadratic = 0.032;
+
 	let mesh: StandardMesh;
 	let directionalLight = new DirectionalLight(lightDirectionVector, lightAmbientColor, lightDiffuseColor, lightSpecularColor);
+	let directionalLight2 = new DirectionalLight(lightDirectionVector2, lightAmbientColor2, lightDiffuseColor2, lightSpecularColor2);
+
+	let pointLight1 = new PointLight(pointLightPosition1, pointLightConstant, pointLightLinear, pointLightQuadratic,
+										lightAmbientColor, lightDiffuseColor, lightSpecularColor);
+	let pointLight2 = new PointLight(pointLightPosition2, pointLightConstant, pointLightLinear, pointLightQuadratic,
+										lightAmbientColor2, lightDiffuseColor2, lightSpecularColor2);
+	
 
 	let assetsLoaded = function(asset: StandardMesh) {
 
@@ -38,13 +65,16 @@ function main(): void {
 
 		mesh.setPosition(0, 0, 0);
 		scene.addMesh(asset);
-		scene.addDirectionalLight(directionalLight);
+		//scene.addDirectionalLight(directionalLight);
+		//scene.addDirectionalLight(directionalLight2);
+		scene.addPointLight(pointLight1);
+		scene.addPointLight(pointLight2);
 
 		requestAnimationFrame(render);
 	}
 
 	var loader = new AssetLoader(webGL2Renderer.getContext());
-	loader.loadAsset("/assets/models/cube-normals-test.orl", assetsLoaded);
+	loader.loadAsset("/assets/models/cube-field.orl", assetsLoaded);
 
 	let render = function() {
 

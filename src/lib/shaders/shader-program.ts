@@ -78,6 +78,11 @@ export class ShaderProgram {
 		this._gl.uniform1i(this.getUniformLocation(uniformName), value);
 	}
 
+	public setFloatUniform(value: number, uniformName: string) {
+
+		this._gl.uniform1f(this.getUniformLocation(uniformName), value);
+	}
+
 	public setMatrix4Uniform(matrix: glm.mat4, uniformName: string) {
 
 		this._gl.uniformMatrix4fv(<WebGLUniformLocation>this.getUniformLocation(uniformName), false, matrix);
