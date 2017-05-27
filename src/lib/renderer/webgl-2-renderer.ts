@@ -49,6 +49,7 @@ export class WebGL2Renderer {
 		let sceneMeshes = scene.meshes;
 		let directionalLights = scene.directionalLights;
 		let pointLights = scene.pointLights;
+		let spotLights = scene.spotLights;
 		for(let i = 0; i < sceneMeshes.length; i++) {
 
 			if(this._currentlyActiveMaterial === "" || sceneMeshes[i].material.uniqueMaterialName !== this._currentlyActiveMaterial) {
@@ -69,6 +70,11 @@ export class WebGL2Renderer {
 
 					pointLights[k].uploadDataToGPU(sceneMeshes[i].material.program, k, true);
 				}
+				sceneMeshes[i].material.program.setIntUniform(spotLights.length, "numberOfActiveSpotLights");
+				for(let k = 0; k < spotLights.length; k++) {
+
+					spotLights[k].uploadDataToGPU(sceneMeshes[i].material.program, k, true);
+				}
 
 				this._currentlyActiveMaterial = sceneMeshes[i].material.uniqueMaterialName;
 				camera.projectionMatrixDirty = false;
@@ -85,7 +91,12 @@ export class WebGL2Renderer {
 
 				pointLights[k].uploadDataToGPU(sceneMeshes[i].material.program, k, false);
 			}
+			sceneMeshes[i].material.program.setIntUniform(spotLights.length, "numberOfActiveSpotLights");
+			for(let k = 0; k < spotLights.length; k++) {
 
+				spotLights[k].uploadDataToGPU(sceneMeshes[i].material.program, k, true);
+			}
+			
 			sceneMeshes[i].bindGeometry();
 			sceneMeshes[i].material.bindTexture();
 

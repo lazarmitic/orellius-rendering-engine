@@ -5,6 +5,7 @@ import { AssetLoader } from "./lib/loaders/asset-loader";
 import { StandardMesh } from "./lib/meshes/standard-mesh";
 import { DirectionalLight } from "./lib/lights/directional-light";
 import { PointLight } from "./lib/lights/point-light";
+import { SpotLight } from "./lib/lights/spot-light";
 
 import * as glm from "gl-matrix";
 
@@ -22,11 +23,11 @@ function main(): void {
 	let scene = new Scene();
 	
 	let lightDirectionVector = glm.vec3.create();
-	glm.vec3.set(lightDirectionVector, 0.5, -1, 0.5);
+	glm.vec3.set(lightDirectionVector, 5.0, 1, 0.0);
 	let lightAmbientColor = glm.vec3.create();
 	glm.vec3.set(lightAmbientColor, 0.1, 0.1, 0.1);
 	let lightDiffuseColor = glm.vec3.create();
-	glm.vec3.set(lightDiffuseColor, 1.0, 1.0, 1.0);
+	glm.vec3.set(lightDiffuseColor, 1.0, 0.0, 1.0);
 	let lightSpecularColor = glm.vec3.create();
 	glm.vec3.set(lightSpecularColor, 0.5, 0.5, 0.5);
 
@@ -40,14 +41,14 @@ function main(): void {
 	glm.vec3.set(lightSpecularColor2, 0.5, 0.5, 0.5);
 
 	let pointLightPosition1 = glm.vec3.create();
-	glm.vec3.set(pointLightPosition1, 5, 2, 5);
+	glm.vec3.set(pointLightPosition1, 0, 3.5, 0);
 
 	let pointLightPosition2 = glm.vec3.create();
-	glm.vec3.set(pointLightPosition2, -5, 2, -5);
+	glm.vec3.set(pointLightPosition2, -5, 5, -5);
 
 	let pointLightConstant = 1;
-	let pointLightLinear = 0.09;
-	let pointLightQuadratic = 0.032;
+	let pointLightLinear = 0.022;
+	let pointLightQuadratic = 0.0019;
 
 	let mesh: StandardMesh;
 	let directionalLight = new DirectionalLight(lightDirectionVector, lightAmbientColor, lightDiffuseColor, lightSpecularColor);
@@ -58,6 +59,9 @@ function main(): void {
 	let pointLight2 = new PointLight(pointLightPosition2, pointLightConstant, pointLightLinear, pointLightQuadratic,
 										lightAmbientColor2, lightDiffuseColor2, lightSpecularColor2);
 	
+	let spotLight1 = new SpotLight(pointLightPosition1, lightDirectionVector, 24, 25, 1.0, 0.09, 0.032,
+									lightAmbientColor, lightDiffuseColor, lightSpecularColor);
+
 
 	let assetsLoaded = function(asset: StandardMesh) {
 
@@ -67,8 +71,9 @@ function main(): void {
 		scene.addMesh(asset);
 		//scene.addDirectionalLight(directionalLight);
 		//scene.addDirectionalLight(directionalLight2);
-		scene.addPointLight(pointLight1);
-		scene.addPointLight(pointLight2);
+		//scene.addPointLight(pointLight1);
+		//scene.addPointLight(pointLight2);
+		scene.addSpotLight(spotLight1);
 
 		requestAnimationFrame(render);
 	}

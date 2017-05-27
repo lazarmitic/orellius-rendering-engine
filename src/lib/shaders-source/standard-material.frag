@@ -31,6 +31,27 @@ uniform int numberOfActivePointLights;
 
 vec3 calculatePointLight(PointLight pointLight, vec3 normal, vec3 fragmentPosition, vec3 fragmentToCameraDirection);
 
+struct SpotLight {
+
+	vec3 position;
+	vec3 direction;
+
+	float innerCutOffAngle;
+	float outerCutOffAngle;
+
+	float constant;
+	float linear;
+	float quadratic;
+
+	vec3 ambientColor;
+	vec3 diffuseColor;
+	vec3 specularColor;
+};
+uniform SpotLight spotLights[5];
+uniform int numberOfActiveSpotLights;
+
+vec3 calculateSpotLight(SpotLight spotLight, vec3 normal, vec3 fragmentPosition, vec3 fragmentToCameraDirection);
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 uniform sampler2D u_DiffuseTexture;
@@ -81,6 +102,11 @@ void main() {
 		result += calculatePointLight(pointLights[i], normalizedNormal, v_FragmentPosition, fragmentToViewDirection);
 	}
 
+	for(int i = 0; i < numberOfActiveSpotLights; i++) {
+
+		result += calculateSpotLight(spotLights[i], normalizedNormal, v_FragmentPosition, fragmentToViewDirection);
+	}
+
 	o_fragColor = vec4(result, 1.0);
 }
 
@@ -129,5 +155,39 @@ vec3 calculatePointLight(PointLight pointLight, vec3 normal, vec3 fragmentPositi
 	diffuse *= attenuationFactor;
 	specular *= attenuationFactor;
 
-	return (ambient + diffuse + specular);
+	return ambient + diffuse + specular;
+}
+
+vec3 calculateSpotLight(SpotLight spotLight, vec3 normal, vec3 fragmentPosition, vec3 fragmentToCameraDirection) {
+
+	vec3 fragmentToLightDirection = normalize(spotLight.position - fragmentPosition);
+	vec3 fragmentToLightDirectionReflected = reflect(-fragmentToLightDirection, normal);
+	float fragmentToLightDistance = length(spotLight.position - fragmentPosition);
+
+	// Diffuse factor
+	float diffuseFactor = max(dot(normal, fragmentToLightDirection), 0.0);
+
+	// Specular factor
+	float specularFactor = pow(max(dot(fragmentToCameraDirection, fragmentToLightDirectionReflected), 0.0), 32.0);
+
+	// Attenuation factor
+	float attenuationFactor = 1.0 / (spotLight.constant +
+									spotLight.linear * fragmentToLightDistance +
+									spotLight.quadratic * (fragmentToLightDistance * fragmentToLightDistance));
+
+	// Spotlight intensity
+	float theta = dot(fragmentToLightDirection, normalize(-spotLight.direction));
+	float epsilon = spotLight.innerCutOffAngle - spotLight.outerCutOffAngle;
+	float intensity = clamp((theta - spotLight.outerCutOffAngle) / epsilon, 0.0, 1.0);
+
+	// Combine results
+	vec3 ambient = spotLight.ambientColor * vec3(texture(u_DiffuseTexture, v_UV));
+	vec3 diffuse = spotLight.diffuseColor * diffuseFactor * vec3(texture(u_DiffuseTexture, v_UV));
+	vec3 specular = spotLight.specularColor * specularFactor * vec3(0.5, 0.5, 0.5);
+
+	ambient *= attenuationFactor * intensity;
+	diffuse *= attenuationFactor * intensity;
+	specular *= attenuationFactor * intensity;
+
+	return ambient + diffuse + specular;
 }
