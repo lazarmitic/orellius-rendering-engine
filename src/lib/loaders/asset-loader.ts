@@ -50,6 +50,8 @@ export class AssetLoader {
 				this._mesh.material.normalImage = this._normalTextureImage;
 				this._mesh.material.normalTexture = normalTexture;
 
+				this._mesh.material.createTextures();
+
 				this._callback(this._mesh);
 
 				//this._textureLoader.loadTextures([ this._diffuseTextureName ], this._texturesLoaded.bind(this));

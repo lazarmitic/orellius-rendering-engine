@@ -35,7 +35,7 @@ function main(): void {
 	let lightDirectionVector2 = glm.vec3.create();
 	glm.vec3.set(lightDirectionVector2, -0.5, -1, -0.5);
 	let lightAmbientColor2 = glm.vec3.create();
-	glm.vec3.set(lightAmbientColor2, 0.1, 0.1, 0.1);
+	glm.vec3.set(lightAmbientColor2, 0.3, 0.3, 0.3);
 	let lightDiffuseColor2 = glm.vec3.create();
 	glm.vec3.set(lightDiffuseColor2, 1.0, 0.0, 1.0);
 	let lightSpecularColor2 = glm.vec3.create();

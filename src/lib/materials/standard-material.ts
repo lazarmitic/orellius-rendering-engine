@@ -28,6 +28,20 @@ export class StandardMaterial extends Material {
 
 		this._gl.activeTexture(this._gl.TEXTURE0);
 		this._gl.bindTexture(this._gl.TEXTURE_2D, this.diffuseTexture.texture);
+
+		this._gl.activeTexture(this._gl.TEXTURE1);
+		this._gl.bindTexture(this._gl.TEXTURE_2D, this.specularTexture.texture);
+
+		this._gl.activeTexture(this._gl.TEXTURE2);
+		this._gl.bindTexture(this._gl.TEXTURE_2D, this.normalTexture.texture);
+
+		this.bindTexturesToSampler();
+	}
+
+	public createTextures() {
+
+		this._gl.activeTexture(this._gl.TEXTURE0);
+		this._gl.bindTexture(this._gl.TEXTURE_2D, this.diffuseTexture.texture);
 		this._gl.texParameteri(this._gl.TEXTURE_2D, this._gl.TEXTURE_MIN_FILTER, this._gl.LINEAR);
 		this._gl.texParameteri(this._gl.TEXTURE_2D, this._gl.TEXTURE_MAG_FILTER, this._gl.LINEAR);
 		this._gl.texImage2D(this._gl.TEXTURE_2D, 0, this._gl.RGB, this._gl.RGB, this._gl.UNSIGNED_BYTE, this.diffuseImage);
@@ -43,8 +57,6 @@ export class StandardMaterial extends Material {
 		this._gl.texParameteri(this._gl.TEXTURE_2D, this._gl.TEXTURE_MIN_FILTER, this._gl.LINEAR);
 		this._gl.texParameteri(this._gl.TEXTURE_2D, this._gl.TEXTURE_MAG_FILTER, this._gl.LINEAR);
 		this._gl.texImage2D(this._gl.TEXTURE_2D, 0, this._gl.RGB, this._gl.RGB, this._gl.UNSIGNED_BYTE, this.normalImage);
-
-		this.bindTexturesToSampler();
 	}
 
 	get program(): ShaderProgram {
