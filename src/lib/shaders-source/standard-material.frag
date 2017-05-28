@@ -56,17 +56,22 @@ vec3 calculateSpotLight(SpotLight spotLight, vec3 normal, vec3 fragmentPosition,
 
 uniform sampler2D u_DiffuseTexture;
 uniform sampler2D u_SpecularTexture;
+uniform sampler2D u_NormalTexture;
 uniform vec3 u_viewPosition;
 
 in vec2 v_UV;
 in vec3 v_Normal;
 in vec3 v_FragmentPosition;
+in mat3 v_TBNMatrix;
 
 out vec4 o_fragColor;
 
 void main() {
 
-	vec3 normalizedNormal = normalize(v_Normal);
+	vec3 normalizedNormal = texture(u_NormalTexture, v_UV).rgb;
+	normalizedNormal = normalize(normalizedNormal * 2.0 - 1.0);
+	normalizedNormal = normalize(v_TBNMatrix * normalizedNormal);
+
 	vec3 fragmentToViewDirection = normalize(u_viewPosition - v_FragmentPosition);
 
 	vec3 result = vec3(0.0, 0.0, 0.0);

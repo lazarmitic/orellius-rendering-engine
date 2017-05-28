@@ -80,7 +80,7 @@ function main(): void {
 	}
 
 	var loader = new AssetLoader(webGL2Renderer.getContext());
-	loader.loadAsset("/assets/models/base64-test.orl", assetsLoaded);
+	loader.loadAsset("/assets/models/cube-normal-map.orl", assetsLoaded);
 
 	let render = function() {
 
