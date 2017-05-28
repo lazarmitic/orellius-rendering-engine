@@ -55,6 +55,7 @@ vec3 calculateSpotLight(SpotLight spotLight, vec3 normal, vec3 fragmentPosition,
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 uniform sampler2D u_DiffuseTexture;
+uniform sampler2D u_SpecularTexture;
 uniform vec3 u_viewPosition;
 
 in vec2 v_UV;
@@ -102,7 +103,7 @@ vec3 calculateDirectionalLight(DirectionalLight directionalLight, vec3 fragmentN
 	// Combine results
 	vec3 ambient = directionalLight.ambientColor * vec3(texture(u_DiffuseTexture, v_UV));
 	vec3 diffuse = directionalLight.diffuseColor * diffuseFactor * vec3(texture(u_DiffuseTexture, v_UV));
-	vec3 specular = directionalLight.specularColor * specularFactor * vec3(0.5, 0.5, 0.5);
+	vec3 specular = directionalLight.specularColor * specularFactor * vec3(texture(u_SpecularTexture, v_UV));
 
 	return ambient + diffuse + specular;
 }
@@ -127,7 +128,7 @@ vec3 calculatePointLight(PointLight pointLight, vec3 normal, vec3 fragmentPositi
 	// Combine results
 	vec3 ambient = pointLight.ambientColor * vec3(texture(u_DiffuseTexture, v_UV));
 	vec3 diffuse = pointLight.diffuseColor * diffuseFactor * vec3(texture(u_DiffuseTexture, v_UV));
-	vec3 specular = pointLight.specularColor * specularFactor * vec3(0.5, 0.5, 0.5);
+	vec3 specular = pointLight.specularColor * specularFactor * vec3(texture(u_SpecularTexture, v_UV));
 
 	ambient *= attenuationFactor;
 	diffuse *= attenuationFactor;
@@ -161,7 +162,7 @@ vec3 calculateSpotLight(SpotLight spotLight, vec3 normal, vec3 fragmentPosition,
 	// Combine results
 	vec3 ambient = spotLight.ambientColor * vec3(texture(u_DiffuseTexture, v_UV));
 	vec3 diffuse = spotLight.diffuseColor * diffuseFactor * vec3(texture(u_DiffuseTexture, v_UV));
-	vec3 specular = spotLight.specularColor * specularFactor * vec3(0.5, 0.5, 0.5);
+	vec3 specular = spotLight.specularColor * specularFactor * vec3(texture(u_SpecularTexture, v_UV));
 
 	ambient *= attenuationFactor * intensity;
 	diffuse *= attenuationFactor * intensity;

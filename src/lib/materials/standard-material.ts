@@ -9,8 +9,10 @@ import * as glm from "gl-matrix";
 export class StandardMaterial extends Material {
 
 	public uniqueMaterialName = "standard-material";
-	public image: HTMLImageElement;
-	public texture: StandardTexture;
+	public diffuseImage: HTMLImageElement;
+	public diffuseTexture: StandardTexture;
+	public specularImage: HTMLImageElement;
+	public specularTexture: StandardTexture;
 
 	constructor(gl: WebGL2RenderingContext) {
 		super(gl);
@@ -20,13 +22,19 @@ export class StandardMaterial extends Material {
 		this._program = new ShaderProgram(this._vertexShader, this._frgmentShader, gl);
 	}
 
-	public bindTexture() {
+	public bindTextures() {
 
 		this._gl.activeTexture(this._gl.TEXTURE0);
-		this._gl.bindTexture(this._gl.TEXTURE_2D, this.texture.texture);
+		this._gl.bindTexture(this._gl.TEXTURE_2D, this.diffuseTexture.texture);
 		this._gl.texParameteri(this._gl.TEXTURE_2D, this._gl.TEXTURE_MIN_FILTER, this._gl.LINEAR);
 		this._gl.texParameteri(this._gl.TEXTURE_2D, this._gl.TEXTURE_MAG_FILTER, this._gl.LINEAR);
-		this._gl.texImage2D(this._gl.TEXTURE_2D, 0, this._gl.RGB, this._gl.RGB, this._gl.UNSIGNED_BYTE, this.image);
+		this._gl.texImage2D(this._gl.TEXTURE_2D, 0, this._gl.RGB, this._gl.RGB, this._gl.UNSIGNED_BYTE, this.diffuseImage);
+
+		this._gl.activeTexture(this._gl.TEXTURE1);
+		this._gl.bindTexture(this._gl.TEXTURE_2D, this.specularTexture.texture);
+		this._gl.texParameteri(this._gl.TEXTURE_2D, this._gl.TEXTURE_MIN_FILTER, this._gl.LINEAR);
+		this._gl.texParameteri(this._gl.TEXTURE_2D, this._gl.TEXTURE_MAG_FILTER, this._gl.LINEAR);
+		this._gl.texImage2D(this._gl.TEXTURE_2D, 0, this._gl.RGB, this._gl.RGB, this._gl.UNSIGNED_BYTE, this.specularImage);
 
 		this.bindTexturesToSampler();
 	}
@@ -45,6 +53,7 @@ export class StandardMaterial extends Material {
 	public bindTexturesToSampler() {
 
 		this._program.bindTextureUnitToSampler("u_DiffuseTexture", 0);
+		this._program.bindTextureUnitToSampler("u_SpecularTexture", 1);
 	}
 
 	public setViewPosition(viewPosition : glm.vec3) {

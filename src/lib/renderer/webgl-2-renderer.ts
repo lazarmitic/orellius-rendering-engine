@@ -96,9 +96,9 @@ export class WebGL2Renderer {
 
 				spotLights[k].uploadDataToGPU(sceneMeshes[i].material.program, k, true);
 			}
-			
+
 			sceneMeshes[i].bindGeometry();
-			sceneMeshes[i].material.bindTexture();
+			sceneMeshes[i].material.bindTextures();
 
 			if(camera.projectionMatrixDirty === true) {
 				
