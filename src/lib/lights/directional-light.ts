@@ -14,9 +14,9 @@ export class DirectionalLight extends Light {
 	private _diffuseColorDirty: boolean;
 	private _specularColorDirty: boolean;
 
-	constructor(directionVector: glm.vec3, ambientColor: glm.vec3, diffuseColor: glm.vec3, specularColor: glm.vec3) {
+	constructor(directionVector: glm.vec3, ambientColor: glm.vec3, diffuseColor: glm.vec3, specularColor: glm.vec3, gl: WebGL2RenderingContext) {
 
-		super();
+		super(gl);
 
 		this._directionVector = directionVector;
 		this._ambientColor = ambientColor;
@@ -28,7 +28,7 @@ export class DirectionalLight extends Light {
 		this._specularColorDirty = true;
 	}
 
-	uploadDataToGPU(program: ShaderProgram, lightIndex: number, forced: boolean) {
+	public uploadDataToGPU(program: ShaderProgram, lightIndex: number, forced: boolean) {
 
 		if(this._directionVectorDirty || forced) {
 

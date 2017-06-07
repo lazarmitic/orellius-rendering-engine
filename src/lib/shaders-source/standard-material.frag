@@ -12,7 +12,7 @@ struct DirectionalLight {
 uniform DirectionalLight directionalLights[5];
 uniform int numberOfActiveDirectionalLights;
 
-vec3 calculateDirectionalLight(DirectionalLight directionalLight, vec3 normal, vec3 fragmentToCameraDirection);
+vec3 calculateDirectionalLight(DirectionalLight directionalLight, vec3 normal, vec3 fragmentToCameraDirection, float shadowFactor);
 
 struct PointLight {
 
@@ -57,14 +57,42 @@ vec3 calculateSpotLight(SpotLight spotLight, vec3 normal, vec3 fragmentPosition,
 uniform sampler2D u_DiffuseTexture;
 uniform sampler2D u_SpecularTexture;
 uniform sampler2D u_NormalTexture;
+uniform sampler2D u_shadowMap;
 uniform vec3 u_viewPosition;
 
 in vec2 v_UV;
 in vec3 v_Normal;
 in vec3 v_FragmentPosition;
+in vec4 v_FragmentPositionLightSpace;
 in mat3 v_TBNMatrix;
 
 out vec4 o_fragColor;
+
+float shadowCalculation(vec3 normal, DirectionalLight directionalLight) {
+
+	vec3 fragmentToLightDirection = normalize(-directionalLight.directionVector);
+	vec3 projCoords = v_FragmentPositionLightSpace.xyz / v_FragmentPositionLightSpace.w;
+	projCoords = projCoords * 0.5 + 0.5;
+	
+	float bias = max(0.01 * (1.0 - dot(v_Normal, fragmentToLightDirection)), 0.01);
+
+	float shadow = 0.0;
+	float texelSize = 1.0 / 512.0;
+
+	float sampleSize = 0.0;
+
+	for(float x = -sampleSize; x <= sampleSize; ++x)
+	{
+		for(float y = -sampleSize; y <= sampleSize; ++y)
+		{
+			float pcfDepth = texture(u_shadowMap, projCoords.xy + vec2(x, y) * texelSize).r;
+			shadow += projCoords.z - bias > pcfDepth ? 1.0 : 0.25;
+		}
+	}
+	shadow /= pow((sampleSize * 2.0) + 1.0, 2.0);
+
+	return shadow;
+}
 
 void main() {
 
@@ -74,11 +102,13 @@ void main() {
 
 	vec3 fragmentToViewDirection = normalize(u_viewPosition - v_FragmentPosition);
 
+	float shadowFactor = shadowCalculation(normalizedNormal, directionalLights[0]);
+
 	vec3 result = vec3(0.0, 0.0, 0.0);
 
 	for(int i = 0; i < numberOfActiveDirectionalLights; i++) {
 
-		result += calculateDirectionalLight(directionalLights[i], normalizedNormal, fragmentToViewDirection);
+		result += calculateDirectionalLight(directionalLights[i], normalizedNormal, fragmentToViewDirection, shadowFactor);
 	}
 
 	for(int i = 0; i < numberOfActivePointLights; i++) {
@@ -91,10 +121,15 @@ void main() {
 		result += calculateSpotLight(spotLights[i], normalizedNormal, v_FragmentPosition, fragmentToViewDirection);
 	}
 
+	//result *= shadowFactor;
+
+	/*float gamma = 2.2;
+	result.rgb = pow(result.rgb, vec3(1.0 / gamma));*/
+
 	o_fragColor = vec4(result, 1.0);
 }
 
-vec3 calculateDirectionalLight(DirectionalLight directionalLight, vec3 fragmentNormal, vec3 fragmentToCameraDirection) {
+vec3 calculateDirectionalLight(DirectionalLight directionalLight, vec3 fragmentNormal, vec3 fragmentToCameraDirection, float shadowFactor) {
 
 	vec3 fragmentToLightDirection = normalize(-directionalLight.directionVector);
 	vec3 fragmentToLightDirectionReflected = reflect(-fragmentToLightDirection, fragmentNormal);
@@ -110,7 +145,7 @@ vec3 calculateDirectionalLight(DirectionalLight directionalLight, vec3 fragmentN
 	vec3 diffuse = directionalLight.diffuseColor * diffuseFactor * vec3(texture(u_DiffuseTexture, v_UV));
 	vec3 specular = directionalLight.specularColor * specularFactor * vec3(texture(u_SpecularTexture, v_UV));
 
-	return ambient + diffuse + specular;
+	return (ambient + (1.0 - shadowFactor) * (diffuse + specular));
 }
 
 vec3 calculatePointLight(PointLight pointLight, vec3 normal, vec3 fragmentPosition, vec3 fragmentToCameraDirection) {

@@ -26,11 +26,11 @@ function main(): void {
 	glm.vec3.set(lightDirectionVector, -0.5, -1.0, 0.5);
 	glm.vec3.normalize(lightDirectionVector, lightDirectionVector);
 	let lightAmbientColor = glm.vec3.create();
-	glm.vec3.set(lightAmbientColor, 0.1, 0.1, 0.1);
+	glm.vec3.set(lightAmbientColor, 0.3, 0.3, 0.3);
 	let lightDiffuseColor = glm.vec3.create();
 	glm.vec3.set(lightDiffuseColor, 1.0, 1.0, 1.0);
 	let lightSpecularColor = glm.vec3.create();
-	glm.vec3.set(lightSpecularColor, 0.5, 0.5, 0.5);
+	glm.vec3.set(lightSpecularColor, 0.75, 0.75, 0.75);
 
 	let lightDirectionVector2 = glm.vec3.create();
 	glm.vec3.set(lightDirectionVector2, -0.5, -1, -0.5);
@@ -52,7 +52,7 @@ function main(): void {
 	let pointLightQuadratic = 0.0019;*/
 
 	let mesh: StandardMesh;
-	let directionalLight = new DirectionalLight(lightDirectionVector, lightAmbientColor, lightDiffuseColor, lightSpecularColor);
+	let directionalLight = new DirectionalLight(lightDirectionVector, lightAmbientColor, lightDiffuseColor, lightSpecularColor, webGL2Renderer.getContext());
 	/*let directionalLight2 = new DirectionalLight(lightDirectionVector2, lightAmbientColor2, lightDiffuseColor2, lightSpecularColor2);
 
 	let pointLight1 = new PointLight(pointLightPosition1, pointLightConstant, pointLightLinear, pointLightQuadratic,
@@ -80,7 +80,7 @@ function main(): void {
 	}
 
 	var loader = new AssetLoader(webGL2Renderer.getContext());
-	loader.loadAsset("/assets/models/cube-normal-map.orl", assetsLoaded);
+	loader.loadAsset("/assets/models/shadow-test-scene.orl", assetsLoaded);
 
 	let render = function() {
 
